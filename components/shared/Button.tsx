@@ -12,7 +12,7 @@ export default function Button(props: {
 
   const onGenerateQuiz = () => {
     console.log('here I am');
-    router.push('/quiz/1');
+    router.push('/quiz/1asdd2/1');
   }
 
   cb = type === 'start' ? onGenerateQuiz : () => { };
