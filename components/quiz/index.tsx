@@ -106,7 +106,7 @@ export default function Quiz() {
             </div>
           <p className='
             mx-8
-            font-circularMedium
+            font-faktProBlack
             text-2xl
             text-meta
             '>
