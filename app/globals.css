@@ -2,26 +2,57 @@
 @tailwind components;
 @tailwind utilities;
 
+
+@font-face {
+  font-family:'Circular Medium';
+  src:url('../public/assets/fonts/Circular/CircularStd-Medium.ttf');
+}
+
+@font-face {
+  font-family:'Fakt Pro Black';
+  src:url('../public/assets/fonts/Fakt-Pro/FaktPro-Semibold.ttf');
+}
+
+@font-face {
+  font-family:'Fakt Pro Blond';
+  src:url('../public/assets/fonts/Fakt-Pro/FaktPro-Blond.ttf');
+}
+@font-face {
+  font-family:'Fakt Pro Normal';
+  src:url('../public/assets/fonts/Fakt-Pro/FaktPro-Normal.ttf');
+}
+
+@font-face {
+  font-family:'GT Super Bold';
+  src:url('../public/assets/fonts/gt-super/GT-Super-Display-Bold.ttf');
+}
+
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+  /* --foreground-rgb: 255, 255, 255;
+  --background-start-rgb: 255, 255, 255;
+  --background-end-rgb: 255, 255, 255; */
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
+  /* :root {
     --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+    --background-start-rgb: 255, 255, 255;
+    --background-end-rgb: 255, 255, 255;
+  } */
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  
+}
+
+.timer {
+  transition: all 0.2s ease;
+}
+
+.home-bg {
+  background-image: url('../public/kyrie_universe.png');
+  height: 100%;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: top;
 }
