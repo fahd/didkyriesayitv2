@@ -15,13 +15,17 @@ const QUERY_NEW_QUIZ = gql`
     }
 `;
 
-type Question = {
-  questionid: string
-}
+type QuizQuestion = {
+  question: {
+    [question: string]: {
+      [questionid:string]: string
+    }
+  }
+} 
   
 export default function QuizPage(props: {
   quizid: string
-  quizquestions: Question[]
+  quizquestions: QuizQuestion[]
 }) {
   const { quizid, quizquestions } = props;
   // console.log('quizid',quizid);

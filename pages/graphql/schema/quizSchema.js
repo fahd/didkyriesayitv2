@@ -22,9 +22,26 @@ const quizSchema = gql`
     text: String!
     source_url: String!
     correct: Author!
-    incorrect1: Author!
-    incorrect2: Author!
-    incorrect3: Author!
+    choices: [QuestionChoice!]!
+  }
+
+  type QuestionChoice {
+    authorid: ID!
+    author_name: String!
+    correct: Boolean!
+  }
+
+  type QuestionData {
+    totalAnswered: Int!
+    percentCorrect: Int!
+    percentWrong: Int!
+  }
+
+  type Response {
+    responseid: ID!
+    quizid: ID!
+    questionid: ID!
+    selected: Author!
   }
 
   type QuizQuestion {

@@ -37,8 +37,8 @@ export default function Choices(props: {
   selected: number;
   reset: boolean,
   choices: ({
-    id: number;
-    text: string;
+    authorid: number;
+    author_name: string;
   }[])
   updateSelected: (id:number) => void
   updateView: () => void
@@ -59,10 +59,10 @@ export default function Choices(props: {
         {/* Question Choices */}
         {choices.map((choice, idx) => (
           <Choice
-            key={idx}
-            id={choice.id}
-            selected={choice.id === selected}
-            text={choice.text}
+            key={choice.authorid}
+            id={choice.authorid}
+            selected={choice.authorid === selected}
+            text={choice.author_name}
             onUpdateSelected={onUpdateSelected}
           />
         ))}

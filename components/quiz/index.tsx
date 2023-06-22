@@ -55,6 +55,17 @@ const GET_QUESTION = gql`
   query ($questionid: String!){
     questionDetails(questionid: $questionid){
       text
+      source_url
+      correct {
+        authorid
+        author_name
+        avatar_url
+      }
+      choices {
+        authorid
+        author_name
+        correct
+      }
     }
   }
 `;
@@ -72,22 +83,13 @@ const Quiz = (props: {
   const [question, updateQuestion] = useState({});
   const [selected, updateSelected] = useState(-1);
   const [reset, onReset] = useState(false);
-  const [view, updateView] = useState('questions');
+  const [view, updateView] = useState('q');
 
   const onUpdateView = () => {
-    setTimeout(() => onReset(true), 300);
-    setTimeout(() => updateView('results'), 600);
+    onReset(true);
+    updateView('a');
     // push /quiz/[quizHash]/[questionId]?results=true
   }
-  
-
-  // choices for response
-  const choices = [
-    { id: 1, text: 'Kyrie Irving' },
-    { id: 2, text: 'Jesus Christ' },
-    { id: 3, text: 'ChatGPT' },
-    { id: 4, text: 'Barney Stimpson' },
-  ];
 
   // results for response
   const results = [
@@ -130,7 +132,7 @@ const Quiz = (props: {
           align-center
         '>
           <div className='font-gtSuperBold text-meta text-xl'>Did Kyrie Say It?</div>
-          <div className='font-faktProBlond'>{1}/10</div>
+          <div className='font-faktProBlond'>{i + 1}/10</div>
         </div>
 
         {/* Separator */}
@@ -139,18 +141,27 @@ const Quiz = (props: {
         {/* Question Body */}
         <div className='flex flex-row my-12'>
           <div className='min-w-[120px]'>
-            <Image
-              src="/../public/huh.png"
-              alt="who this be"
-              width={120}
-              height={120}
-            />
-            <div className='my-2'>jesu</div>
+            {view === 'q'
+              ? <Image
+                  className={``}
+                  src={'/../public/huh.png'}
+                  alt="who this be"
+                  width={120}
+                  height={120} />
+              : <Image
+                  src={q.correct.avatar_url} 
+                  alt="who this be" 
+                  width={120}
+                  height={120} />
+            }
+            
+            {view === 'a' && <div className='my-2 text-center text-meta font-faktProBlack'>{q.correct.author_name}</div>}
             </div>
           <p className='
             mx-8
             font-faktProBlack
             text-2xl
+            grow
             text-meta
             '>
             “{q.text}”
@@ -162,14 +173,15 @@ const Quiz = (props: {
         {/* Sourcing */}
 
         {/* Choices */}
-        {view === 'questions' && (
-          <div className={`
+        {/* <div className={`
             transition-opacity ease-out duration-300
             ${reset ? 'opacity-0' : ''}`
-          }>
+          }></div> */}
+        {view === 'q' && (
+          <div className={``}>
             < Choices
               reset={reset}
-              choices={choices}
+              choices={q.choices}
               selected={selected}
               updateSelected={updateSelected}
               updateView={onUpdateView}
@@ -185,7 +197,7 @@ const Quiz = (props: {
         }
         
         {/* Results */}
-        {view === 'results' && <div>Results</div>
+        {view === 'a' && <div>Results</div>
         }
       </div>
     </div>

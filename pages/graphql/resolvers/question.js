@@ -5,18 +5,21 @@ const Question = {
     }
   },
   Question: {
-    correct: async ({correct}, args, { models }) => {
-      return await models.Questions.findAuthor({authorid: correct})
+    correct: async ({questionid, correct} , args, { models }) => {
+      return await models.Questions.findQuestionAuthorCorrect({
+        questionid,
+        authorid:correct
+      })
     },
-    incorrect1: async ({incorrect1}, args, { models }) => {
-      return await models.Questions.findAuthor({authorid: incorrect1})
+    choices: async ({questionid, correct, incorrect1, incorrect2, incorrect3} , args, { models }) => {
+      const authors = [correct, incorrect1, incorrect2, incorrect3];
+      const authorids = authors.map(n => parseInt(n));
+
+      return await models.Questions.findQuestionChoices({
+        questionid,
+        authorids
+      })
     },
-    incorrect2: async ({incorrect2}, args, { models }) => {
-      return await models.Questions.findAuthor({authorid: incorrect2})
-    },
-    incorrect3: async ({incorrect3}, args, { models }) => {
-      return await models.Questions.findAuthor({authorid: incorrect3})
-    }
   }
 }
 
