@@ -41,9 +41,8 @@ export default function Choices(props: {
     author_name: string;
   }[])
   updateSelected: (id:number) => void
-  updateView: () => void
 }) {
-  const { choices, selected, reset, updateSelected, updateView } = props;
+  const { choices, selected, reset, updateSelected } = props;
 
   const onUpdateSelected = (id:number):void => {
     updateSelected(id);

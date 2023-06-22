@@ -1,44 +1,9 @@
 'use client'
 
-/*
-  Quiz Details:
-    /quiz/[quizHash]/[questionId]
-    quizId: string(hash)
-    questionIds: [number]
-
-  Fetch Current Question:
-    question: {
-      questionId: number
-      quoteText: string
-      quoteAuthor: {
-        authorId: number
-        authorName: string
-      }
-      quoteAvatarURL: string
-      quoteSource: string
-      quoteSourceURL: string
-    },
-    choices: [
-      {
-        authorid: number
-        authorName: string
-      }...
-    ],
-    results: [
-      {
-        authorid: number
-        authorName: string
-        correct: boolean
-        percentCorrect: number
-      }...
-    ]
-  */
-
-import React, { useEffect, useState } from 'react';
-import { gql, useQuery, ApolloClient, ApolloProvider } from "@apollo/client";
+import React, { useState } from 'react';
+import { gql, useQuery, useMutation, ApolloProvider } from "@apollo/client";
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { lookup } from "dns";
 
 import client from '../../app/apollo-client';
 import { Choices, Timer, TimerMobile, Next } from '../shared';
@@ -54,6 +19,7 @@ type Question = {
 const GET_QUESTION = gql`
   query ($questionid: String!){
     questionDetails(questionid: $questionid){
+      questionid
       text
       source_url
       correct {
@@ -70,33 +36,54 @@ const GET_QUESTION = gql`
   }
 `;
 
+const SAVE_RESPONSE = gql`
+  mutation (
+      $quizid: ID! 
+      $questionid: ID! 
+      $selectedauthorid: ID!
+      $correctid: ID!
+    ){
+    saveResponse(
+      quizid: $quizid
+      questionid: $questionid 
+      selectedauthorid: $selectedauthorid
+      correctid: $correctid
+    ) {
+      responseid
+    }
+  }
+`;
+
+const GET_QUESTION_RESULTS = gql`
+  query ($questionid: String!){
+    questionDetails(questionid: $questionid){
+      times_answered
+      choices {
+        authorid
+        author_name
+        correct
+        questionChoiceData {
+          times_selected
+          percent_correct
+        }
+      }
+    }
+  }
+`;
+
 const Quiz = (props: {
   quizid: string,
   quizquestions: Question[]
 }
 ) => {  
-  // 10 random questions
   const { quizid, quizquestions } = props;
-
-  // Local state for UI behavior  
   const [i, updateI] = useState(0);
   const [question, updateQuestion] = useState({});
   const [selected, updateSelected] = useState(-1);
   const [reset, onReset] = useState(false);
   const [view, updateView] = useState('q');
-
-  const onUpdateView = () => {
-    onReset(true);
-    updateView('a');
-    // push /quiz/[quizHash]/[questionId]?results=true
-  }
-
-  // results for response
-  const results = [
-
-  ]
-
-  // Fetch first question
+  
+  // Queries
   const currQuestion = quizquestions[i].question;
   const { data, loading, error } = useQuery(
     GET_QUESTION,
@@ -106,6 +93,34 @@ const Quiz = (props: {
       }
     }
   )
+
+  // Mutations
+  const [saveResponse, responseMutation] = useMutation(SAVE_RESPONSE);
+  const [getResults, resultsQuery] = useMutation(SAVE_RESPONSE);
+
+  const onUpdateView = async () => {
+    // push /quiz/[quizHash]/[questionId]?results=true
+    // reset
+    onReset(true);
+    updateView('l');
+  
+    // save response
+    const question = q;
+    const variables = {
+      quizid: quizid,
+      questionid: question.questionid,
+      selectedauthorid: selected,
+      correctid: question.correct.authorid,
+    };
+  
+    await saveResponse({ variables })  
+    
+      // get results
+  
+      // updateView
+      // updateView('a'); 
+  }
+
   
   if (loading) {
     return <div>Loading</div>
@@ -180,15 +195,14 @@ const Quiz = (props: {
         {view === 'q' && (
           <div className={``}>
             < Choices
-              reset={reset}
-              choices={q.choices}
-              selected={selected}
-              updateSelected={updateSelected}
-              updateView={onUpdateView}
+                reset={reset}
+                choices={q.choices}
+                selected={selected}
+                updateSelected={updateSelected}
             />
 
             {/* Question Timer */}
-            <TimerMobile reset={reset} updateView={onUpdateView} />
+            <TimerMobile reset={reset} />
 
             {/* Finish question early */}
             <Next updateView={onUpdateView} selected={selected > -1} />

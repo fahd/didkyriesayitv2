@@ -11,6 +11,38 @@ Questions.findOne = ({ questionid }) => {
     .catch(e => console.error(e.stack));
 }
 
+Questions.saveResponse = ({ questionid, quizid, selectedauthorid, correct }) => {
+  const queryString = `
+    INSERT INTO responses (quizId, questionId, authorId, iscorrect)
+    VALUES (${quizid}, ${questionid}, ${selectedauthorid}, ${correct})
+    RETURNING *
+  `;
+
+  return connection
+    .query(queryString)
+    .then(res => res.rows[0])
+    .catch(e => console.error(e.stack));
+
+}
+Questions.findTimesAnswered = ({ questionid }) => {
+  const queryString = `
+    SELECT
+      COUNT(responses.questionid)::int
+    FROM responses
+    INNER JOIN questions
+    ON
+      responses.questionid = questions.questionid
+    WHERE
+      questions.questionid = '${questionid}';
+    `;
+
+  return connection
+    .query(queryString)
+    .then(res => res.rows[0].count)
+    .catch(e => console.error(e.stack));
+
+}
+
 Questions.findAuthor = ({ authorid }) => {
   const queryString = `SELECT * FROM authors WHERE authorid='${authorid}';`;
 

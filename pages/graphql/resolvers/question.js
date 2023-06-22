@@ -4,11 +4,29 @@ const Question = {
       return await models.Questions.findOne({questionid})
     }
   },
+  Mutation: {
+    saveResponse: async (parent, { questionid, quizid, selectedauthorid, correctid }, { models }) => {
+      // in case no selection
+      const selected = selectedauthorid || -1;
+
+      return await models.Questions.saveResponse({
+        questionid,
+        quizid,
+        selectedauthorid: selected,
+        correct: selected === correctid
+      })
+    }
+  },
   Question: {
     correct: async ({questionid, correct} , args, { models }) => {
       return await models.Questions.findQuestionAuthorCorrect({
         questionid,
         authorid:correct
+      })
+    },
+    times_answered:async ({questionid} , args, { models }) => {
+      return await models.Questions.findTimesAnswered({
+        questionid
       })
     },
     choices: async ({questionid, correct, incorrect1, incorrect2, incorrect3} , args, { models }) => {

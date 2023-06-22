@@ -23,6 +23,7 @@ export const Timer = (props: {
   const [referenceTime, updateReferenceTime] = useState(Date.now());
   const [progressColor, updateProgressColor] = useState(colorGreen);
   const [progress, updateProgress] = useState(100);
+  const [stop, updateStop] = useState(false);
   const [offset, updateOffset] = useState(circumference * ((progress)/100));
 
   const { updateView, reset} = props;
@@ -49,8 +50,11 @@ export const Timer = (props: {
           updateProgressColor(colorRed)
         }
         if (prevTime <= 0) {
+          
+          updateStop(true)
           updateProgress(100);
-          updateView();
+          // nasty error with rerendering multiple components, this delays this execution off the main thread
+          if (!stop) setTimeout(updateView,0);
           return 0;
         }
         updateReferenceTime(now);
@@ -112,7 +116,6 @@ export const Timer = (props: {
 }
 
 export const TimerMobile = (props: {
-  updateView: () => void;
   reset: boolean;
 }) => {
 
@@ -121,7 +124,7 @@ export const TimerMobile = (props: {
   const [width, updateWidth] = useState(100);
   const [widthColor, updateWidthColor] = useState(colorGreen);
 
-  const { updateView, reset} = props;
+  const { reset} = props;
 
   useEffect(() => {
     const countDownUntilZero = () => {
@@ -144,13 +147,12 @@ export const TimerMobile = (props: {
         }
         if (prevTime <= 0) {
           updateWidth(0);
-          updateView();
           return 0;
         }
         updateReferenceTime(now);
         updateWidth((prevTime - interval) / WIDTH_INTERVAL);
         return prevTime - interval;
-      }, [reset]);
+      });
     }
     setTimeout(countDownUntilZero, MILLISECOND_INTERVAL);
   })

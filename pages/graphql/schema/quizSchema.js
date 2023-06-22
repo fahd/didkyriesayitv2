@@ -5,6 +5,10 @@ const quizSchema = gql`
     generateQuiz: Quiz!
     questionDetails(questionid: String!): Question!
   }
+  extend type Mutation {
+    saveResponse(quizid: ID! questionid: ID! selectedauthorid: ID! correctid: ID!): Response!
+    questionDetails(questionid: String!): Question!
+  }
 
   type Author {
     authorid: ID!
@@ -23,25 +27,23 @@ const quizSchema = gql`
     source_url: String!
     correct: Author!
     choices: [QuestionChoice!]!
+    times_answered: Int!
   }
 
   type QuestionChoice {
     authorid: ID!
     author_name: String!
     correct: Boolean!
-  }
-
-  type QuestionData {
-    totalAnswered: Int!
-    percentCorrect: Int!
-    percentWrong: Int!
+    times_selected: Int!
+    percent_correct: Int!
   }
 
   type Response {
     responseid: ID!
     quizid: ID!
     questionid: ID!
-    selected: Author!
+    selected: ID!
+    iscorrect: Boolean!
   }
 
   type QuizQuestion {
