@@ -1,25 +1,16 @@
 'use client'
 
-import { useRouter } from 'next/navigation';
-
 export default function Button(props: {
   text: string;
   type: string;
+  onNavigateQuiz: () => void
 }) {
-  const router = useRouter();
-  const { text, type } = props;
-  let cb;
-
-  const onGenerateQuiz = () => {
-    console.log('here I am');
-    router.push('/quiz/1asdd2/1');
-  }
-
-  cb = type === 'start' ? onGenerateQuiz : () => { };
+  
+  const { text, type, onNavigateQuiz } = props;
 
   return (
     <button
-      onClick={onGenerateQuiz}
+      onClick={onNavigateQuiz}
       className='
         cursor-pointer
         mt-16

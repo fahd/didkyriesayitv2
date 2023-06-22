@@ -1,7 +1,16 @@
+'use client'
+
 import Image from 'next/image';
 import { Button } from '../shared';
+import { useRouter } from 'next/navigation';
 
-export default function Home() {  
+export default function Home () {  
+  const router = useRouter();
+
+  const onNavigateQuiz = () => {
+    router.push('/quiz');
+  }
+
   return (
     <div>
     {/* <header>Home</header> */}
@@ -61,12 +70,13 @@ export default function Home() {
             </p>
             <div className='max-w-md'>
               <Button
+                onNavigateQuiz={onNavigateQuiz}
                 type={'start'}
                 text={"Get Started 👉"} />
             </div>
         </div>
       </div>
     </main>
-    </div>
+   </div>
   )
 }

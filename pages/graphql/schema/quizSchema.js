@@ -3,6 +3,7 @@ import { gql } from 'graphql-tag';
 const quizSchema = gql`
   extend type Query {
     generateQuiz: Quiz!
+    questionDetails(questionid: String!): Question!
   }
 
   type Author {
@@ -13,7 +14,7 @@ const quizSchema = gql`
 
   type Quiz {
     quizid: ID!
-    questions: [QuizQuestion!]!
+    quizquestions: [QuizQuestion!]!
   }
 
   type Question {

@@ -12,6 +12,7 @@
     "dev-server": "nodemon --ignore 'client/' --exec npx babel-node pages/api/graphql/index.js"
   },
   "dependencies": {
+    "@apollo/client": "^3.7.16",
     "@apollo/server": "^4.7.4",
     "@as-integrations/next": "^2.0.0",
     "@types/node": "20.3.1",

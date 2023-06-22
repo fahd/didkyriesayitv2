@@ -1,26 +1,6 @@
 'use client'
 
-import Image from 'next/image';
-import { Choices, Timer, TimerMobile, Next } from '../shared';
-import React, { useState } from 'react';
-
-// two States
-  // quiz Question
-  // quiz Answer
-  
-export default function Quiz() {  
-  const [q, updateQ] = useState(1);
-  const [selected, updateSelected] = useState(-1);
-  const [reset, onReset] = useState(false);
-  const [view, updateView] = useState('questions');
-
-  const onUpdateView = () => {
-    setTimeout(() => onReset(true), 300);
-    setTimeout(() => updateView('results'), 600);
-    // push /quiz/[quizHash]/[questionId]?results=true
-  }
-
-  /*
+/*
   Quiz Details:
     /quiz/[quizHash]/[questionId]
     quizId: string(hash)
@@ -54,6 +34,53 @@ export default function Quiz() {
     ]
   */
 
+import React, { useEffect, useState } from 'react';
+import { gql, useQuery, ApolloClient, ApolloProvider } from "@apollo/client";
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import { lookup } from "dns";
+
+import client from '../../app/apollo-client';
+import { Choices, Timer, TimerMobile, Next } from '../shared';
+
+type Question = {
+  question: {
+    [question: string]: {
+      [questionid:string]: string
+    }
+  }
+} 
+
+const GET_QUESTION = gql`
+  query ($questionid: String!){
+    questionDetails(questionid: $questionid){
+      text
+    }
+  }
+`;
+
+const Quiz = (props: {
+  quizid: string,
+  quizquestions: Question[]
+}
+) => {  
+  // 10 random questions
+  const { quizid, quizquestions } = props;
+
+  // Local state for UI behavior  
+  const [i, updateI] = useState(0);
+  const [question, updateQuestion] = useState({});
+  const [selected, updateSelected] = useState(-1);
+  const [reset, onReset] = useState(false);
+  const [view, updateView] = useState('questions');
+
+  const onUpdateView = () => {
+    setTimeout(() => onReset(true), 300);
+    setTimeout(() => updateView('results'), 600);
+    // push /quiz/[quizHash]/[questionId]?results=true
+  }
+  
+
   // choices for response
   const choices = [
     { id: 1, text: 'Kyrie Irving' },
@@ -67,7 +94,23 @@ export default function Quiz() {
 
   ]
 
-  const text = 'I disclose my mysteries to those who are worthy of my mysteries. Do not let your left hand know what your right hand is doing.'
+  // Fetch first question
+  const currQuestion = quizquestions[i].question;
+  const { data, loading, error } = useQuery(
+    GET_QUESTION,
+    {
+      variables: {
+        questionid: currQuestion.questionid
+      }
+    }
+  )
+  
+  if (loading) {
+    return <div>Loading</div>
+  }
+  
+  const q = Object.keys(question).length === 0 ? data.questionDetails : question;
+
   return (
     <div>
       {/* <header>Home</header> */}
@@ -87,7 +130,7 @@ export default function Quiz() {
           align-center
         '>
           <div className='font-gtSuperBold text-meta text-xl'>Did Kyrie Say It?</div>
-          <div className='font-faktProBlond'>{q}/10</div>
+          <div className='font-faktProBlond'>{1}/10</div>
         </div>
 
         {/* Separator */}
@@ -102,7 +145,7 @@ export default function Quiz() {
               width={120}
               height={120}
             />
-            <div className='my-2'>Jesus Christ</div>
+            <div className='my-2'>jesu</div>
             </div>
           <p className='
             mx-8
@@ -110,7 +153,7 @@ export default function Quiz() {
             text-2xl
             text-meta
             '>
-            “{text}”
+            “{q.text}”
           </p>
           <div>
             <Timer reset={reset} updateView={onUpdateView}></Timer>
@@ -146,5 +189,22 @@ export default function Quiz() {
         }
       </div>
     </div>
+  )
+}
+
+// export default Quiz;
+
+export default function QuizPage(props: {
+  quizid: string
+  quizquestions: Question[]
+}) {
+  const { quizid, quizquestions } = props;
+  return (
+    <ApolloProvider client={client}>
+      <Quiz
+        quizid={quizid}
+        quizquestions={quizquestions}
+      />
+    </ApolloProvider>
   )
 }

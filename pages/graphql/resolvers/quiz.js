@@ -1,5 +1,8 @@
 const Quiz = {
   Query: {
+    hello: async() => {
+      return 'world'
+    },
     generateQuiz: async (parent, args, { models }) => {
       const { quizid } = await models.Quiz.createQuiz();
       
@@ -10,10 +13,10 @@ const Quiz = {
       // for each of 10 questions, insert into quiz_questions:
         // quizId
         // questionId
-      const questions = await models.Quiz.saveQuizQuestions(quiz_questions);
+      const quizquestions = await models.Quiz.saveQuizQuestions(quiz_questions);
       const data = {
         quizid,
-        questions
+        quizquestions
       }
       return data;
     },
