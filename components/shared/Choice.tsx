@@ -31,6 +31,8 @@ const Choice = (props: {
         ${selected ? 'text-question-answer hover:bg-question-answer-fill bg-question-answer-fill border-question-answer' : 'text-question bg-question-fill hover:bg-question-fill-hover'}
         basis-1/2
         m-1
+        my-1
+        py-4
         max-w-[49%]
       `}
     >{text}</div>

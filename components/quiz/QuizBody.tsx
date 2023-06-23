@@ -18,6 +18,7 @@ type ResultChoice = {
 
 type Results = {
   times_answered: number;
+  no_response: number;
   choices: ResultChoice[]
 }
 
@@ -44,8 +45,8 @@ const Question = (props: {
   const { reset, choices, selected, onUpdateSelected, onUpdateView } = props;
   return (
     <div className={``}>
+
       <Choices reset={reset} choices={choices} selected={selected} updateSelected={onUpdateSelected}/>
-      <TimerMobile reset={reset} />
       <Next onNext={onUpdateView} selected={selected > -1} text={'Next'}/>
     </div>
   )
@@ -53,17 +54,17 @@ const Question = (props: {
 
 const green = '#00DF59';
 const gray = '#d6def5';
-const TIME_TO_COUNTDOWN = 1.25 * 1000;
+const TIME_TO_COUNTDOWN = .9 * 1000;
 const c = 'CORRECT';
 const w = 'WRONG';
 
 const ResultBar = (props: {
   choice: ResultChoice;
   times_answered: number;
-  selected: number;
+  selected: number | null;
 }) => {
   const { choice, times_answered, selected } = props;
-  const { author_name, correct, times_selected } = choice;
+  const { author_name, authorid, correct, times_selected } = choice;
 
   const [time, updateTime] = useState(TIME_TO_COUNTDOWN);
   const [percentFill, updatePercentage] = useState(0);
@@ -97,7 +98,7 @@ const ResultBar = (props: {
   return (
     <div className='w-full mt-1 relative'>
       <div className='text-meta font-faktProNormal flex items-center'>
-        <p className={`${sc ? (sc === c ? 'font-faktProBlack text-right' : 'font-faktProBlack text-wrong') : ''}`}>{author_name}</p>
+        <p className={`${authorid === '-1' && 'text-[#adb5cf]'} ${sc ? (sc === c ? 'font-faktProBlack text-right' : 'font-faktProBlack text-wrong') : ''}`}>{author_name}</p>
       </div>
       <div className={`absolute text-sm font-faktProBlack text-meta`} style={{left: `${percentFill + 0.5}%`}}>{Math.round(percentFill)}%</div>
       <svg width="100%" height="30px"> 
@@ -116,14 +117,29 @@ const Result = (props: {
   idx: number;
 }) => {
   const { results, selected, idx, onNext } = props;
-  const { choices, times_answered } = results;
-  // console.log('choices', choices);
+  const { times_answered } = results;
+  let { choices } = results;
+  const resultsMap = choices.map(choice => <ResultBar key={choice.authorid} selected={selected} choice={choice} times_answered={times_answered} />);
+
+  console.log('choices', choices);
+  if (results.no_response > 0) {
+    resultsMap.push(<ResultBar
+      key={-1}
+      selected={null}
+      choice={{
+        authorid: '-1',
+        author_name: "(Ran out of time 😅)",
+        correct: false,
+        times_selected: results.no_response
+      }}
+      times_answered={times_answered} />)
+  }
   const finished = idx + 1 === 10;
   const text = finished ? "Finish" : "Next";
   return (
     <div>
-      <p className={`text-meta font-faktProBlack text-lg mb-5`}>Total Responses: {times_answered}</p>
-      {choices.map(choice => <ResultBar key={choice.authorid} selected={selected} choice={choice} times_answered={times_answered} />)}
+      <p className={`text-meta font-faktProNormal text-md mb-5`}>(<span className={'font-faktProBlack'}>{times_answered} times</span> this question has been seen 👀)</p>
+      {resultsMap}
       <Next onNext={onNext} selected={true} text={text} />
     </div>
   )

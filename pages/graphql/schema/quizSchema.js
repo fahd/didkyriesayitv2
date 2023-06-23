@@ -29,6 +29,7 @@ const quizSchema = gql`
     correct: Author!
     choices: [QuestionChoice!]!
     times_answered: Int!
+    no_response: Int!
   }
 
   type QuestionChoice {

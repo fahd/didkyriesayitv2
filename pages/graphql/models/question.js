@@ -61,7 +61,17 @@ Questions.findResponseSelectedRate = ({ questionid, authorid }) => {
     .catch(e => console.error(e.stack));
 }
 
-Questions.findPercentCorrect = ({ questionid }) => {
+Questions.findTimesNotResponded = ({ questionid }) => {
+  const queryString = `
+    SELECT Count(*)::int
+    FROM responses 
+    INNER JOIN questions
+    ON responses.questionid = questions.questionid 
+    WHERE 
+    responses.authorid='-1'
+    AND
+    responses.questionid = '${questionid}'`
+  
   return connection
     .query(queryString)
     .then(res => res.rows[0].count)

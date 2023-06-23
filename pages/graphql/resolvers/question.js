@@ -38,6 +38,11 @@ const Question = {
         authorids
       });
     },
+    no_response: async ({ questionid }, args, { models }) => {
+      return models.Questions.findTimesNotResponded({
+        questionid
+      })
+    }
   },
   QuestionChoice: {
     times_selected: async ({questionid, authorid} , args, { models }) => {

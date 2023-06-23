@@ -9,6 +9,7 @@ import { gql, useQuery, useLazyQuery, useMutation, ApolloProvider } from "@apoll
 import { useRouter } from 'next/navigation';
 
 import client from '../../app/apollo-client';
+import { TimerMobile } from '../shared';
 import QuizHeader from './QuizHeader';
 import QuizBody, { QuizLoading } from './QuizBody';
 
@@ -63,6 +64,7 @@ const GET_QUESTION_RESULTS = gql`
   query ($questionid: String!){
     questionDetails(questionid: $questionid){
       times_answered
+      no_response
       choices {
         authorid
         author_name
@@ -147,6 +149,7 @@ const Quiz = (props: {
     <div>
       <div className="max-w-4xl m-auto h-screen min-h-full pt-16">
         <QuizHeader i={i} />
+        <TimerMobile reset={reset}/>
         <QuizBody
           view={view}
           text={q.text}
