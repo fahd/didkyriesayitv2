@@ -56,3 +56,38 @@ body {
   background-size: contain;
   background-position: top;
 }
+
+
+@keyframes fadein {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes flickerAnimation {
+  0%   { opacity:1; }
+  50%  { opacity:0.5; }
+  100% { opacity:1; }
+}
+@-o-keyframes flickerAnimation{
+  0%   { opacity:1; }
+  50%  { opacity:0.5; }
+  100% { opacity:1; }
+}
+@-moz-keyframes flickerAnimation{
+  0%   { opacity:1; }
+  50%  { opacity:0.5; }
+  100% { opacity:1; }
+}
+@-webkit-keyframes flickerAnimation{
+  0%   { opacity:1; }
+  50%  { opacity:0.5; }
+  100% { opacity:1; }
+}
+
+.load {
+  -webkit-animation: fadein 1s, flickerAnimation 0.8s infinite; /* Safari, Chrome and Opera > 12.1 */
+  -moz-animation: fadein 1s, flickerAnimation 0.8s infinite; /* Firefox < 16 */
+  -ms-animation: fadein 1s, flickerAnimation 0.8s infinite; /* Internet Explorer */
+  -o-animation: fadein 1s, flickerAnimation 0.8s infinite; /* Opera < 12.1 */
+  animation: fadein 1s, flickerAnimation 0.8s infinite;
+}

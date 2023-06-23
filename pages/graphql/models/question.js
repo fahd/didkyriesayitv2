@@ -24,6 +24,7 @@ Questions.saveResponse = ({ questionid, quizid, selectedauthorid, correct }) => 
     .catch(e => console.error(e.stack));
 
 }
+
 Questions.findTimesAnswered = ({ questionid }) => {
   const queryString = `
     SELECT
@@ -41,6 +42,30 @@ Questions.findTimesAnswered = ({ questionid }) => {
     .then(res => res.rows[0].count)
     .catch(e => console.error(e.stack));
 
+}
+
+Questions.findResponseSelectedRate = ({ questionid, authorid }) => {
+  const queryString = `
+    SELECT Count(*)::int
+    FROM responses 
+    INNER JOIN questions
+    ON responses.questionid = questions.questionid 
+    WHERE 
+    responses.authorid='${authorid}'
+    AND
+    responses.questionid = '${questionid}'
+  `
+  return connection
+    .query(queryString)
+    .then(res => res.rows[0].count)
+    .catch(e => console.error(e.stack));
+}
+
+Questions.findPercentCorrect = ({ questionid }) => {
+  return connection
+    .query(queryString)
+    .then(res => res.rows[0].count)
+    .catch(e => console.error(e.stack));
 }
 
 Questions.findAuthor = ({ authorid }) => {
@@ -78,7 +103,8 @@ Questions.findQuestionChoices = async ({ questionid, authorids }) => {
     SELECT 
       authors.authorid, 
       authors.author_name,
-      case when questions.correct = authors.authorid then TRUE else FALSE end as correct
+      case when questions.correct = authors.authorid then TRUE else FALSE end as correct,
+      questions.questionid
     FROM authors 
     INNER JOIN questions 
     ON 
@@ -88,7 +114,7 @@ Questions.findQuestionChoices = async ({ questionid, authorids }) => {
         authors.authorid = questions.incorrect2 OR
         authors.authorid = questions.incorrect3
       )
-    WHERE authors.authorid = any($1::int[]) and questions.questionid='${questionid}';
+    WHERE authors.authorid = ANY($1::int[]) and questions.questionid='${questionid}'
     `, [authorids]
     )
     .then(res => res.rows)

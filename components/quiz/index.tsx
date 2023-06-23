@@ -1,12 +1,16 @@
 'use client'
+/* <div className={`
+    transition-opacity ease-out duration-300
+    ${reset ? 'opacity-0' : ''}`
+  }></div> */
 
 import React, { useState } from 'react';
-import { gql, useQuery, useMutation, ApolloProvider } from "@apollo/client";
-import Image from 'next/image';
+import { gql, useQuery, useLazyQuery, useMutation, ApolloProvider } from "@apollo/client";
 import { useRouter } from 'next/navigation';
 
 import client from '../../app/apollo-client';
-import { Choices, Timer, TimerMobile, Next } from '../shared';
+import QuizHeader from './QuizHeader';
+import QuizBody, { QuizLoading } from './QuizBody';
 
 type Question = {
   question: {
@@ -22,6 +26,7 @@ const GET_QUESTION = gql`
       questionid
       text
       source_url
+      source
       correct {
         authorid
         author_name
@@ -62,10 +67,7 @@ const GET_QUESTION_RESULTS = gql`
         authorid
         author_name
         correct
-        questionChoiceData {
-          times_selected
-          percent_correct
-        }
+        times_selected
       }
     }
   }
@@ -79,27 +81,25 @@ const Quiz = (props: {
   const { quizid, quizquestions } = props;
   const [i, updateI] = useState(0);
   const [question, updateQuestion] = useState({});
+  const [results, updateResults] = useState({});
   const [selected, updateSelected] = useState(-1);
   const [reset, onReset] = useState(false);
   const [view, updateView] = useState('q');
   
   // Queries
   const currQuestion = quizquestions[i].question;
+  const [getResults, resultsQuery] = useLazyQuery(GET_QUESTION_RESULTS)
+  const [getNextQuestion, nextQuestionQuery] = useLazyQuery(GET_QUESTION)
   const { data, loading, error } = useQuery(
-    GET_QUESTION,
-    {
-      variables: {
-        questionid: currQuestion.questionid
-      }
-    }
+    GET_QUESTION,{variables: {questionid: currQuestion.questionid}}
   )
 
   // Mutations
   const [saveResponse, responseMutation] = useMutation(SAVE_RESPONSE);
-  const [getResults, resultsQuery] = useMutation(SAVE_RESPONSE);
 
   const onUpdateView = async () => {
     // push /quiz/[quizHash]/[questionId]?results=true
+
     // reset
     onReset(true);
     updateView('l');
@@ -112,113 +112,59 @@ const Quiz = (props: {
       selectedauthorid: selected,
       correctid: question.correct.authorid,
     };
-  
     await saveResponse({ variables })  
-    
-      // get results
   
-      // updateView
-      // updateView('a'); 
+    // get results
+    const resultData = await getResults({ variables: { questionid: question.questionid } })
+    const questionData = resultData.data.questionDetails;
+    updateResults(questionData);
+    updateView('r');
+  }
+
+  const onUpdateQuestion = async () => {
+    updateView('l');
+    let idx = i + 1; 
+    const currQuestion = quizquestions[idx].question;
+    
+    const resultData = await getNextQuestion({ variables: { questionid: currQuestion.questionid } });
+    const questionData = resultData.data.questionDetails;
+
+    updateQuestion(questionData);
+    updateI(idx);
+    updateView('q');
+    onReset(false);
+    updateSelected(-1);
   }
 
   
   if (loading) {
-    return <div>Loading</div>
+    return <QuizLoading/>
   }
   
   const q = Object.keys(question).length === 0 ? data.questionDetails : question;
 
   return (
     <div>
-      {/* <header>Home</header> */}
-      <div className="
-        max-w-4xl
-        m-auto
-        h-screen
-        min-h-full
-        pt-16
-        ">
-        
-        {/* Top Bar */}
-        <div className='
-          flex
-          flex-row
-          justify-between
-          align-center
-        '>
-          <div className='font-gtSuperBold text-meta text-xl'>Did Kyrie Say It?</div>
-          <div className='font-faktProBlond'>{i + 1}/10</div>
-        </div>
-
-        {/* Separator */}
-        <hr className='my-4 border-separator' />
-
-        {/* Question Body */}
-        <div className='flex flex-row my-12'>
-          <div className='min-w-[120px]'>
-            {view === 'q'
-              ? <Image
-                  className={``}
-                  src={'/../public/huh.png'}
-                  alt="who this be"
-                  width={120}
-                  height={120} />
-              : <Image
-                  src={q.correct.avatar_url} 
-                  alt="who this be" 
-                  width={120}
-                  height={120} />
-            }
-            
-            {view === 'a' && <div className='my-2 text-center text-meta font-faktProBlack'>{q.correct.author_name}</div>}
-            </div>
-          <p className='
-            mx-8
-            font-faktProBlack
-            text-2xl
-            grow
-            text-meta
-            '>
-            “{q.text}”
-          </p>
-          <div>
-            <Timer reset={reset} updateView={onUpdateView}></Timer>
-          </div>
-        </div>
-        {/* Sourcing */}
-
-        {/* Choices */}
-        {/* <div className={`
-            transition-opacity ease-out duration-300
-            ${reset ? 'opacity-0' : ''}`
-          }></div> */}
-        {view === 'q' && (
-          <div className={``}>
-            < Choices
-                reset={reset}
-                choices={q.choices}
-                selected={selected}
-                updateSelected={updateSelected}
-            />
-
-            {/* Question Timer */}
-            <TimerMobile reset={reset} />
-
-            {/* Finish question early */}
-            <Next updateView={onUpdateView} selected={selected > -1} />
-          </div>
-          )
-        }
-        
-        {/* Results */}
-        {view === 'a' && <div>Results</div>
-        }
+      <div className="max-w-4xl m-auto h-screen min-h-full pt-16">
+        <QuizHeader i={i} />
+        <QuizBody
+          view={view}
+          text={q.text}
+          choices={q.choices}
+          avatar_url={q.correct.avatar_url}
+          reset={reset}
+          results={results}
+          selected={selected}
+          correctAuthor={q.correct.author_name}
+          onUpdateView={onUpdateView}
+          onUpdateSelected={updateSelected}
+          onUpdateQuestion={onUpdateQuestion}
+          idx={i}
+        />
       </div>
     </div>
   )
 }
-
-// export default Quiz;
 
 export default function QuizPage(props: {
   quizid: string

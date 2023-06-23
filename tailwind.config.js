@@ -32,7 +32,9 @@ module.exports = {
           'disabled': '#a2a2a2',
           'question-answer': '#00C950',
           'question-answer-fill': '#C5FDDB',
-          'queston-answer-b': '#00DF59'
+          'question-answer-b': '#00DF59',
+          'right': '#00DF59',
+          'wrong' :'red'
         },
         maxHeight: {
           '128': '48rem'

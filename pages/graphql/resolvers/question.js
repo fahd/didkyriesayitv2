@@ -36,8 +36,17 @@ const Question = {
       return await models.Questions.findQuestionChoices({
         questionid,
         authorids
+      });
+    },
+  },
+  QuestionChoice: {
+    times_selected: async ({questionid, authorid} , args, { models }) => {
+      return await models.Questions.findResponseSelectedRate({
+        questionid,
+        authorid
       })
     },
+
   }
 }
 

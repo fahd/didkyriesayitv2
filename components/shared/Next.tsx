@@ -2,14 +2,15 @@
 
 export default function Next (props: {
   selected: boolean
-  updateView: () => void
+  onNext: () => void
+  text: string
 }) {
-  const { selected, updateView } = props;
+  const { selected, onNext,text } = props;
   const disabled = !selected;
   return (
     <div className='w-[99%] mt-4 flex flex-row justify-end'>
       <button
-        onClick={() => updateView()}
+        onClick={() => onNext()}
         disabled={!selected}
         className={`
           ${!disabled ? 'cursor-pointer' : ''}
@@ -24,7 +25,7 @@ export default function Next (props: {
           ${!disabled ? 'text-question-answer bg-question-answer-fill' : ''}
           ${disabled ? 'text-disabled' : 'text-meta'}
           `}
-      >Next</button>
+      >{text}</button>
     </div>
   )
 }

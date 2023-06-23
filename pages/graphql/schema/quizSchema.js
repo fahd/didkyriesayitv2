@@ -25,6 +25,7 @@ const quizSchema = gql`
     questionid: ID!
     text: String!
     source_url: String!
+    source: String!
     correct: Author!
     choices: [QuestionChoice!]!
     times_answered: Int!
@@ -32,10 +33,10 @@ const quizSchema = gql`
 
   type QuestionChoice {
     authorid: ID!
+    questionid: ID!
     author_name: String!
     correct: Boolean!
     times_selected: Int!
-    percent_correct: Int!
   }
 
   type Response {

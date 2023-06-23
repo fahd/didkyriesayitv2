@@ -1,5 +1,11 @@
 'use client'
 
+type Choice = {
+  authorid: number;
+  author_name: string;
+  correct: boolean;
+}
+
 const Choice = (props: {
   text: string;
   id: number;
@@ -20,11 +26,9 @@ const Choice = (props: {
         text-xl
         w-full
         rounded
-        text-question
         border-2
         border-question-b
-        ${!selected ? 'bg-question-fill' : 'bg-question-fill-selected'}
-        ${!selected ? 'hover:bg-question-fill-hover' : 'hover:bg-question-fill-selected'}
+        ${selected ? 'text-question-answer hover:bg-question-answer-fill bg-question-answer-fill border-question-answer' : 'text-question bg-question-fill hover:bg-question-fill-hover'}
         basis-1/2
         m-1
         max-w-[49%]
@@ -32,14 +36,30 @@ const Choice = (props: {
     >{text}</div>
   )
 }
+const ChoiceLoading = () => {
+  return (
+    <div
+      className={`
+        p-2
+        text-center
+        bg-gray
+        w-full
+        rounded
+        text-question
+        basis-1/2
+        m-1
+        my-4em
+        max-w-[49%]
+        min-h-[75px]
+      `}
+    />
+  )
+}
 
 export default function Choices(props: {
   selected: number;
   reset: boolean,
-  choices: ({
-    authorid: number;
-    author_name: string;
-  }[])
+  choices: Choice[]
   updateSelected: (id:number) => void
 }) {
   const { choices, selected, reset, updateSelected } = props;
@@ -66,6 +86,18 @@ export default function Choices(props: {
           />
         ))}
         
+      </div>
+    </div>
+  )
+}
+export const ChoicesLoading = () => {
+  return (
+    <div>
+      <div className={`flex flex-row flex-wrap justify-center`}>
+        <ChoiceLoading/>
+        <ChoiceLoading/>
+        <ChoiceLoading/>
+        <ChoiceLoading/>
       </div>
     </div>
   )
