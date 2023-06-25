@@ -1,6 +1,7 @@
 import { ApolloProvider, gql } from "@apollo/client";
 import Quiz from '../../components/quiz';
 import client from '../../app/apollo-client';
+import Head from 'next/head'
 
 const QUERY_NEW_QUIZ = gql`
   query {
@@ -32,7 +33,12 @@ export default function QuizPage(props: {
   // console.log('quizquestions',quizquestions);
   return (
     // <div>1</div>
-    <Quiz quizid={quizid} quizquestions={quizquestions}/>
+    <div>
+      <Head>
+        <title>Did Kyrie Say It?</title>
+      </Head>
+      <Quiz quizid={quizid} quizquestions={quizquestions} />
+    </div>
   )
 }
 
