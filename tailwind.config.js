@@ -23,6 +23,7 @@ module.exports = {
         colors: {
           'meta': '#4B587C',
           'gray': "#EEF2FF",
+          'gray-hover': "#e4eaff",
           'separator': '#E3ECFF',
           'question-fill': '#ECF3FF',
           'question-fill-hover': '#deeaff',

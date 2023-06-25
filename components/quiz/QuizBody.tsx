@@ -165,13 +165,31 @@ const Finish = (props: {
   score: number;
 }) => {
   const { score } = props;
-  const { rank, message } = scoreGame(score);
-  const scorePercent = score * 100;
+  const { rank, message, adjective } = scoreGame(score);
   return (
     <div>
-      Congrats, you scored {scorePercent}%!
-      Your rank is {rank}
-      {message}
+      <div className='rounded flex flex-col bg-gray text-meta items-center relative h-3/4 py-8 px-10 justify-center text-2xl font-faktProBlond'>
+        <div className='flex flex-col items-center'>
+          <p className='text-meta text-md my-4'>🎉 Congrats, you went {adjective} <span className='font-faktProBlack'>{Math.floor(score*10)}/10</span> from the field! </p>
+          
+          <div className='flex flex-col items-center my-8 pb-8'>
+            <div className='font-faktProBlond'>Your rank is:</div>
+            <p className='text-5xl font-gtSuperBold my-4'>{rank}</p>
+            <div className='flex flex-col font-faktProNormal items-center'>
+              {message}
+            </div>
+          </div>
+
+          
+          <div className='mt-4'>
+            <span className='cursor-pointer text-meta underline font-faktProNormal' onClick={() => window.location.reload()}>Play again?</span> <br />
+          </div>
+
+        </div>
+      </div>
+      <div className='font-faktProNormal bg-[#f3f3f5] text-[#333] relative h-1/4 p-4 text-lg mt-4'>
+        Thanks for playing!
+      </div>
     </div>
   )
 }
@@ -201,9 +219,7 @@ const QuizBody = (props: {
 
   if (view === 'f') {
     return(
-    <Finish score={score}>
-      Finished
-      </Finish>
+    <Finish score={score}/>
     )
   }
 
@@ -214,8 +230,8 @@ const QuizBody = (props: {
   return (
     <div>
       <div className='flex flex-row my-12 mb-8'>     
-        <div className=' min-h-[120px]'>
-          <div className='relative w-[120px] h-[120px]'>
+        <div className=' min-h-[140px]'>
+          <div className='relative w-[140px] h-[140px]'>
             <div className={`bg-gray absolute top-0 right-0 bottom-0 left-0 z-10`}>
             </div>
             <Image

@@ -1,3 +1,9 @@
+const adjectives = ['a blistering', 'a scorching', 'a mind-numbing', 'a sweltering', 'a blazing', 'a staggering', 'a vitriolic', 'an astonishing'];
+
+const getRandomAdjective = () => {
+  return adjectives[Math.floor(Math.random() * adjectives.length)]
+}
+
 const scoreMap: {
   [key: number]: {
     rank: string;
@@ -5,20 +11,20 @@ const scoreMap: {
   }
  } =  {
   0: {
-    rank:'Healthy, Normal Functioning Person',
-    message:''
+    rank:'😤 Westbrook',
+    message:'You kept missing. But you kept shooting. That\'s all that matters.'
   },
   1: {
     rank:'🔫  Ja Morant\'s Pistol',
     message:''
   },
   2: {
-    rank:'🐻 The Bear Poker',
+    rank:'🐻 Bear Poker',
     message:''
   },
   3: {
     rank:'😲 Doc Rivers',
-    message:'Because sometimes, 3 is just good enough.'
+    message: 'Because sometimes, 3 is just good enough.',
   },
   4: {
     rank:'🎥 Video Coordinator',
@@ -26,7 +32,7 @@ const scoreMap: {
   },
   5: {
     rank:'🧀 Phoenix Nacho',
-    message:'The nachos are stale, the cheese is cold, the hot dog buns are crusty....but they still work.'
+    message:'The nachos are stale, the cheese is cold, the hot dog buns are crusty....but a calorie is a calorie.'
   },
   6: {
     rank:'👊 Fist of Draymond',
@@ -34,7 +40,7 @@ const scoreMap: {
   },
   7: {
     rank:'🧽 Lethal Scrub',
-    message:'Not bad - at any given moment you can drop a LETHAL 2 points and 0 '
+    message:'Not bad - at any given moment you can drop a LETHAL 2 points off the bench.'
   },
   8: {
     rank:'🏀 Playoff P',
@@ -45,13 +51,13 @@ const scoreMap: {
     message:''
   },
   10: {
-    rank:'😤 Play-In Champion',
+    rank:'🫡 Play-In Champion',
     message:''
   },
  }
 
-export const scoreGame = (score:number):{rank:string, message:string} => {
+export const scoreGame = (score:number):{rank:string, message:string, adjective: string} => {
   const scorePercent: number = Math.floor(score * 10);
   const scoreDetails: { rank: string, message:string} = scoreMap[scorePercent];
-  return scoreDetails;
+  return { ...scoreDetails, adjective: getRandomAdjective() }
  }

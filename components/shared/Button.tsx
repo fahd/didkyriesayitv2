@@ -22,6 +22,8 @@ export default function Button(props: {
         w-full
         rounded
         text-meta
+        hover:bg-gray-hover
+        transition-all
       '
     >{text}</button>
   )

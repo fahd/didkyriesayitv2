@@ -66,7 +66,10 @@ export default function Home () {
               text-meta
               max-w-xl
             '>
-              A short ten question quiz to gauge how enlightened you <em>really</em> are.
+              A short ten question quiz to gauge how enlightened you <em>really</em> are 👀.
+              <br />
+              <br />
+              <span className='font-faktProBlond text-[22px]'>(Each quiz is randomly generated from 100 questions. You can take it more than once!)</span>
             </p>
             <div className='max-w-md'>
               <Button

@@ -11,7 +11,7 @@ const QuizHeader = (props: {
         align-center
       `}>
         <div className='font-gtSuperBold text-meta text-xl'>Did Kyrie Say It?</div>
-        <div className='font-faktProBlond'>{i + 1}/10</div>
+        <div className='font-faktProNormal text-lg text-meta'>{i + 1}/10</div>
       </div>
       <hr className='my-4 border-separator' />
     </div>
