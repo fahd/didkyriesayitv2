@@ -1,11 +1,16 @@
 'use client'
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
+import TimerContextProvider, { TimerContext } from '../../context/timerContext';
 
-
-const TIME_TO_COUNTDOWN = 10 * 1000;
+const TIME_SECONDS_TO_COUNTDOWN = 24;
+const TIME_TO_COUNTDOWN = TIME_SECONDS_TO_COUNTDOWN * 1000;
 const WIDTH_INTERVAL = TIME_TO_COUNTDOWN / 100;
 const MILLISECOND_INTERVAL = 1;
+
+const CAUTION_TIME = 14000;
+const WARNING_TIME = 8000;
+const DANGER_TIME = 3000;
 
 const colorGreen = '#00DF59'
 const colorYellow = '#F9C717';
@@ -18,13 +23,12 @@ export const Timer = (props: {
 }) => {
   const radius = 40;
   const circumference = 2 * Math.PI * radius;
-  
-  const [time, updateTime] = useState(TIME_TO_COUNTDOWN);
   const [referenceTime, updateReferenceTime] = useState(Date.now());
   const [progressColor, updateProgressColor] = useState(colorGreen);
   const [progress, updateProgress] = useState(100);
   const [stop, updateStop] = useState(false);
-  const [offset, updateOffset] = useState(circumference * ((progress)/100));
+  const [offset, updateOffset] = useState(circumference * ((progress) / 100));
+  const [localTime, updateLocalTime] = useState(TIME_TO_COUNTDOWN);
 
   const { updateView, reset} = props;
 
@@ -33,20 +37,20 @@ export const Timer = (props: {
       if (reset) {
         updateProgress(0);
         updateOffset(0);
-        updateTime(0);
+        updateLocalTime(0);
         return 0;
       }
-      updateTime(prevTime => {
+      updateLocalTime(prevTime => {
         const now = Date.now();
         let interval = now - referenceTime;
         
-        if (prevTime <= 7000 && progressColor === colorGreen) {
+        if (prevTime <= CAUTION_TIME && progressColor === colorGreen) {
           updateProgressColor(colorYellow)
         }
-        if (prevTime <= 4000 && progressColor === colorYellow) {
+        if (prevTime <= WARNING_TIME && progressColor === colorYellow) {
           updateProgressColor(colorOrange)
         }
-        if (prevTime <= 2000 && progressColor === colorOrange) {
+        if (prevTime <= DANGER_TIME && progressColor === colorOrange) {
           updateProgressColor(colorRed)
         }
         if (prevTime <= 0) {
@@ -58,10 +62,15 @@ export const Timer = (props: {
           return 0;
         }
         updateReferenceTime(now);
-        const newProgress = (prevTime - interval) / 100;
+        const newProgress = (prevTime - interval) / (TIME_SECONDS_TO_COUNTDOWN * 10);
+        const newOffset = circumference * ((newProgress) / 100);
         updateProgress(newProgress);
-        updateOffset(circumference * ((newProgress) / 100));
-        updateTime(prevTime - interval);
+        updateOffset(newOffset);
+        const timeDiff = prevTime - interval;
+        
+        // hack, using context moves the passage of time at 3x the speed
+        window.localStorage.setItem('time', timeDiff.toString())
+        updateLocalTime(timeDiff);;
         return prevTime - interval;
       });
     }
@@ -69,6 +78,7 @@ export const Timer = (props: {
   })
 
   return (
+    <div>
     <div className='sm:hidden md:block relative'>
       <div className='
           absolute
@@ -80,7 +90,7 @@ export const Timer = (props: {
           text-meta
           font-faktProBlack
           text-xl
-        '><span>{`${(time / 1000).toFixed(0)}`}</span></div>
+        '><span>{`${(localTime / 1000).toFixed(0)}`}</span></div>
       
       <svg
         className='relative'
@@ -110,62 +120,75 @@ export const Timer = (props: {
         >
         </circle>
     </svg>
-    </div>
-
-  )
-}
-
-export const TimerMobile = (props: {
-  reset: boolean;
-}) => {
-
-  const [time, updateTime] = useState(TIME_TO_COUNTDOWN);
-  const [referenceTime, updateReferenceTime] = useState(Date.now());
-  const [width, updateWidth] = useState(100);
-  const [widthColor, updateWidthColor] = useState(colorGreen);
-
-  const { reset} = props;
-
-  useEffect(() => {
-    const countDownUntilZero = () => {
-      if (reset) {
-        updateTime(0);
-        updateWidth(0);
-        return 0;
-      }
-      updateTime(prevTime => {
-        const now = Date.now();
-        let interval = now - referenceTime;
-        if (prevTime <= 2000 && widthColor === colorOrange) {
-          updateWidthColor(colorRed)
-        }
-        if (prevTime <= 4000 && widthColor === colorYellow) {
-          updateWidthColor(colorOrange)
-        }
-        if (prevTime <= 7000 && widthColor === colorGreen) {
-          updateWidthColor(colorYellow)
-        }
-        if (prevTime <= 0) {
-          updateWidth(0);
-          return 0;
-        }
-        updateReferenceTime(now);
-        updateWidth((prevTime - interval) / WIDTH_INTERVAL);
-        return prevTime - interval;
-      });
-    }
-    setTimeout(countDownUntilZero, MILLISECOND_INTERVAL);
-  })
-
-  return (
-    <div className='md:hidden mt-4 min-w-full min-h-[12px] relative bg-gray rounded'>
-      <div
-        className='timer absolute z-10 top-0 bottom-0 right-0 left-0'
-        style={{
-          width: `${width}%`,
-          backgroundColor: `${widthColor}`
-        }}
-      />
+      </div>
     </div>
   )
 }
+
+// export const TimerMobile = (props: {
+//   reset: boolean;
+// }) => {
+
+//   const [time, updateTime] = useState(TIME_TO_COUNTDOWN);
+//   const [referenceTime, updateReferenceTime] = useState(Date.now());
+//   const [width, updateWidth] = useState(100);
+//   const [widthColor, updateWidthColor] = useState(colorGreen);
+
+//   const { reset} = props;
+
+//   useEffect(() => {
+//     const countDownUntilZero = () => {
+//       if (reset) {
+//         updateTime(0);
+//         updateWidth(0);
+//         return 0;
+//       }
+//       updateTime(prevTime => {
+//         const now = Date.now();
+//         let interval = now - referenceTime;
+//         if (prevTime <= DANGER_TIME && widthColor === colorOrange) {
+//           updateWidthColor(colorRed)
+//         }
+//         if (prevTime <= WARNING_TIME && widthColor === colorYellow) {
+//           updateWidthColor(colorOrange)
+//         }
+//         if (prevTime <= CAUTION_TIME && widthColor === colorGreen) {
+//           updateWidthColor(colorYellow)
+//         }
+//         if (prevTime <= 0) {
+//           updateWidth(0);
+//           return 0;
+//         }
+//         updateReferenceTime(now);
+//         updateWidth((prevTime - interval) / WIDTH_INTERVAL);
+//         return prevTime - interval;
+//       });
+//     }
+//     setTimeout(countDownUntilZero, MILLISECOND_INTERVAL);
+//   })
+
+//   return (
+//     <div className='md:hidden mt-4 min-w-full min-h-[12px] relative bg-gray rounded'>
+//       <div
+//         className='timer absolute z-10 top-0 bottom-0 right-0 left-0'
+//         style={{
+//           width: `${width}%`,
+//           backgroundColor: `${widthColor}`
+//         }}
+//       />
+//     </div>
+//   )
+// }
+
+
+// export const Timer = (props: {
+//   updateView: () => void;
+//   reset: boolean;
+// }) => {
+//   const { updateView, reset } = props;
+//   return (
+//     <TimerContextProvider>
+//       <TimerContainer updateView={updateView} reset={reset}/>
+//   </TimerContextProvider>)
+// }
+

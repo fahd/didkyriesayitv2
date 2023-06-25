@@ -5,7 +5,7 @@ const Question = {
     }
   },
   Mutation: {
-    saveResponse: async (parent, { questionid, quizid, selectedauthorid, correctid }, { models }) => {
+    saveResponse: async (parent, { questionid, quizid, selectedauthorid, correctid, responsetime }, { models }) => {
       // in case no selection
       const selected = selectedauthorid || -1;
 
@@ -13,6 +13,7 @@ const Question = {
         questionid,
         quizid,
         selectedauthorid: selected,
+        responsetime: responsetime,
         correct: selected === correctid
       })
     }
@@ -29,14 +30,28 @@ const Question = {
         questionid
       })
     },
-    choices: async ({questionid, correct, incorrect1, incorrect2, incorrect3} , args, { models }) => {
+    choices: async ({ questionid, correct, incorrect1, incorrect2, incorrect3 }, args, { models }) => {
       const authors = [correct, incorrect1, incorrect2, incorrect3];
       const authorids = authors.map(n => parseInt(n));
 
       return await models.Questions.findQuestionChoices({
         questionid,
-        authorids
+        authorids,
+        random: false
       });
+    },
+    choicesRandom: async ({ questionid, correct, incorrect1, incorrect2, incorrect3}, args, { models }) => {
+      const authors = [correct, incorrect1, incorrect2, incorrect3];
+      const authorids = authors.map(n => parseInt(n));
+
+      
+      const choices = await models.Questions.findQuestionChoices({
+        questionid,
+        authorids,
+        random: true
+      });
+      
+      return choices;
     },
     no_response: async ({ questionid }, args, { models }) => {
       return models.Questions.findTimesNotResponded({

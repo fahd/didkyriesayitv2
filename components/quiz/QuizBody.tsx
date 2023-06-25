@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import Image from 'next/image';
-import { Choices, ChoicesLoading, Timer, TimerMobile, Next } from '../shared';
-import { spawn } from 'child_process';
+import { Choices, ChoicesLoading, Timer, Next } from '../shared';
 
 type Choice = {
   authorid: number;
@@ -54,7 +53,7 @@ const Question = (props: {
 
 const green = '#00DF59';
 const gray = '#d6def5';
-const TIME_TO_COUNTDOWN = .9 * 1000;
+const TIME_TO_COUNTDOWN = .75 * 1000;
 const c = 'CORRECT';
 const w = 'WRONG';
 
@@ -121,7 +120,6 @@ const Result = (props: {
   let { choices } = results;
   const resultsMap = choices.map(choice => <ResultBar key={choice.authorid} selected={selected} choice={choice} times_answered={times_answered} />);
 
-  console.log('choices', choices);
   if (results.no_response > 0) {
     resultsMap.push(<ResultBar
       key={-1}
@@ -175,11 +173,10 @@ const QuizBody = (props: {
           {view === 'r' && <div className='my-2 text-center text-meta font-faktProBlack'>{correctAuthor}</div>}
         </div>
         
-        
           <p className='
             mx-8
             font-faktProBlack
-            text-2xl
+            text-[22px]
             grow
             text-meta
             '>
@@ -204,8 +201,9 @@ const QuizBody = (props: {
         idx={idx}
       />}
       
-    </div>
+      </div>
   )
 }
+
 
 export default QuizBody;

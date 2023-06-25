@@ -6,7 +6,7 @@ const quizSchema = gql`
     questionDetails(questionid: String!): Question!
   }
   extend type Mutation {
-    saveResponse(quizid: ID! questionid: ID! selectedauthorid: ID! correctid: ID!): Response!
+    saveResponse(quizid: ID! questionid: ID! selectedauthorid: ID! correctid: ID! responsetime: Float!): Response!
     questionDetails(questionid: String!): Question!
   }
 
@@ -28,6 +28,7 @@ const quizSchema = gql`
     source: String!
     correct: Author!
     choices: [QuestionChoice!]!
+    choicesRandom: [QuestionChoice!]!
     times_answered: Int!
     no_response: Int!
   }
@@ -46,6 +47,7 @@ const quizSchema = gql`
     questionid: ID!
     selected: ID!
     iscorrect: Boolean!
+    responsetime: Float!
   }
 
   type QuizQuestion {

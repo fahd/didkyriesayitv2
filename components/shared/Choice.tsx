@@ -27,8 +27,8 @@ const Choice = (props: {
         w-full
         rounded
         border-2
-        border-question-b
-        ${selected ? 'text-question-answer hover:bg-question-answer-fill bg-question-answer-fill border-question-answer' : 'text-question bg-question-fill hover:bg-question-fill-hover'}
+        
+        ${selected ? 'text-question-answer hover:bg-question-answer-fill bg-question-answer-fill border-question-answer-b' : 'border-question-b text-question bg-question-fill hover:bg-question-fill-hover'}
         basis-1/2
         m-1
         my-1

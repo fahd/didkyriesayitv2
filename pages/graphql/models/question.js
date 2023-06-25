@@ -11,10 +11,10 @@ Questions.findOne = ({ questionid }) => {
     .catch(e => console.error(e.stack));
 }
 
-Questions.saveResponse = ({ questionid, quizid, selectedauthorid, correct }) => {
+Questions.saveResponse = ({ questionid, quizid, selectedauthorid, correct, responsetime }) => {
   const queryString = `
-    INSERT INTO responses (quizId, questionId, authorId, iscorrect)
-    VALUES (${quizid}, ${questionid}, ${selectedauthorid}, ${correct})
+    INSERT INTO responses (quizId, questionId, authorId, iscorrect, responsetime)
+    VALUES (${quizid}, ${questionid}, ${selectedauthorid}, ${correct}, ${responsetime})
     RETURNING *
   `;
 
@@ -107,7 +107,7 @@ Questions.findQuestionAuthorCorrect = ({ authorid, questionid }) => {
     .catch(e => console.error(e.stack));
 }
 
-Questions.findQuestionChoices = async ({ questionid, authorids }) => {
+Questions.findQuestionChoices = async ({ questionid, authorids, random }) => {
   
   return connection.query(`
     SELECT 
@@ -125,6 +125,7 @@ Questions.findQuestionChoices = async ({ questionid, authorids }) => {
         authors.authorid = questions.incorrect3
       )
     WHERE authors.authorid = ANY($1::int[]) and questions.questionid='${questionid}'
+    ${random ? 'ORDER BY RANDOM()' : ''}
     `, [authorids]
     )
     .then(res => res.rows)
