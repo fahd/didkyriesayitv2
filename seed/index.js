@@ -10,7 +10,7 @@ const seedAuthors = (connection) => {
     const { authorid, author_name} = row;
     let queryString = `
       INSERT INTO authors (author_name, avatar_url)
-      VALUES ('${author_name}', 'https://avatars.dicebear.com/api/male/${author_name}.svg');
+      VALUES ('${author_name}', 'https://didkyriesayit.s3.us-east-2.amazonaws.com/avatars/${authorid}.png');
     `
     await connection.query(queryString)
     console.log(`Inserted author #${authorid}`);

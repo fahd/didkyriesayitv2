@@ -77,6 +77,21 @@ Questions.findTimesNotResponded = ({ questionid }) => {
     .then(res => res.rows[0].count)
     .catch(e => console.error(e.stack));
 }
+Questions.findAverageResponseTime = ({ questionid }) => {
+  const queryString = `
+      SELECT AVG(responses.responsetime)::float
+      FROM responses 
+      INNER JOIN questions
+      ON responses.questionid = questions.questionid 
+      WHERE 
+      questions.questionid = '${questionid}';
+    `
+  
+  return connection
+    .query(queryString)
+    .then(res => res.rows[0].avg)
+    .catch(e => console.error(e.stack));
+}
 
 Questions.findAuthor = ({ authorid }) => {
   const queryString = `SELECT * FROM authors WHERE authorid='${authorid}';`;

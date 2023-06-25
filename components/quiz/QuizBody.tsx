@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import Image from 'next/image';
 import { Choices, ChoicesLoading, Timer, Next } from '../shared';
+import { scoreGame } from '../../lib/utils'
 
 type Choice = {
   authorid: number;
@@ -19,6 +20,7 @@ type Results = {
   times_answered: number;
   no_response: number;
   choices: ResultChoice[]
+  average_response_time: number;
 }
 
 export const QuizLoading = () => {
@@ -43,7 +45,7 @@ const Question = (props: {
 }) => {
   const { reset, choices, selected, onUpdateSelected, onUpdateView } = props;
   return (
-    <div className={``}>
+    <div className={`mb-4`}>
 
       <Choices reset={reset} choices={choices} selected={selected} updateSelected={onUpdateSelected}/>
       <Next onNext={onUpdateView} selected={selected > -1} text={'Next'}/>
@@ -112,12 +114,14 @@ const ResultBar = (props: {
 const Result = (props: {
   results: Results
   selected: number;
+  source: string;
+  source_url: string;
   onNext: () => void;
   idx: number;
 }) => {
-  const { results, selected, idx, onNext } = props;
+  const { results, selected, source, source_url, idx, onNext } = props;
   const { times_answered } = results;
-  let { choices } = results;
+  let { choices, average_response_time } = results;
   const resultsMap = choices.map(choice => <ResultBar key={choice.authorid} selected={selected} choice={choice} times_answered={times_answered} />);
 
   if (results.no_response > 0) {
@@ -136,9 +140,38 @@ const Result = (props: {
   const text = finished ? "Finish" : "Next";
   return (
     <div>
-      <p className={`text-meta font-faktProNormal text-md mb-5`}>(<span className={'font-faktProBlack'}>{times_answered} times</span> this question has been seen 👀)</p>
+    <div className='bg-[#f3f3f5] p-4 rounded'>
+        <p>
+          <span className={'text-meta font-faktProBlack'}>📖 Source:&nbsp;</span>
+          <a className='underline text-meta'  target="_blank" href={source_url}>{source}</a>
+        </p>
+        <p className={`text-meta font-faktProNormal text-md`}>
+          <span className={'font-faktProBlack'}>✏️ Responses: &nbsp;</span>
+           {times_answered}
+        </p>
+        <p className={`text-meta font-faktProNormal text-md`}>
+          <span className={'font-faktProBlack'}>⏱️ Average Response Time: &nbsp;</span>
+           {average_response_time.toFixed(2)} seconds
+        </p>
+    </div>
       {resultsMap}
       <Next onNext={onNext} selected={true} text={text} />
+      
+    </div>
+  )
+}
+
+const Finish = (props: {
+  score: number;
+}) => {
+  const { score } = props;
+  const { rank, message } = scoreGame(score);
+  const scorePercent = score * 100;
+  return (
+    <div>
+      Congrats, you scored {scorePercent}%!
+      Your rank is {rank}
+      {message}
     </div>
   )
 }
@@ -148,6 +181,9 @@ const QuizBody = (props: {
   text: string;
   view: string;
   selected: number;
+  source: string;
+  source_url: string;
+  score: number;
   correctAuthor: string;
   avatar_url: string;
   onUpdateSelected: () => void;
@@ -157,33 +193,60 @@ const QuizBody = (props: {
   results: Results;
   idx: number;
 }) => {
-  const { idx, reset, view, text, selected, choices, avatar_url, correctAuthor, results, onUpdateSelected, onUpdateView, onUpdateQuestion } = props;
+  const { idx, reset, view, text, selected, source, source_url, score, choices, avatar_url, correctAuthor, results, onUpdateSelected, onUpdateView, onUpdateQuestion } = props;
 
   if (view === 'l') {
     return <QuizLoading/>
   }
 
+  if (view === 'f') {
+    return(
+    <Finish score={score}>
+      Finished
+      </Finish>
+    )
+  }
+
+  const imgSrc = view === 'q' ? '/../public/huh.png' : avatar_url;
+  const alt = view === 'q' ? 'Who could this be?' : correctAuthor;
+
+
   return (
     <div>
-      <div className='flex flex-row my-12'>
-        
-        <div className='min-w-[120px]'>
-          {view === 'q' && <Image className={``} src={'/../public/huh.png'} alt="who this be" width={120} height={120} />}
-          {view === 'r' && <Image className={``} src={avatar_url} alt={correctAuthor} width={120} height={120} />}
+      <div className='flex flex-row my-12 mb-8'>     
+        <div className=' min-h-[120px]'>
+          <div className='relative w-[120px] h-[120px]'>
+            <div className={`bg-gray absolute top-0 right-0 bottom-0 left-0 z-10`}>
+            </div>
+            <Image
+              className={`relative z-20 object-cover`}
+              src={imgSrc}
+              alt={alt}
+              width={0}
+              height={0}
+              sizes="100vw"
+              style={{ width: '100%', height: '100%' }}
+              
+              />
+          </div>
           {view === 'r' && <div className='my-2 text-center text-meta font-faktProBlack'>{correctAuthor}</div>}
         </div>
-        
+
+        <div className='grow'>
           <p className='
             mx-8
             font-faktProBlack
             text-[22px]
-            grow
             text-meta
             '>
            “{text}”
           </p>
+        </div>
           
-        <div><Timer reset={reset} updateView={onUpdateView}></Timer></div>
+        <div>
+          <Timer reset={reset} updateView={onUpdateView} />
+        </div>
+
       </div>
 
       {view === 'q' && <Question
@@ -197,6 +260,8 @@ const QuizBody = (props: {
       {view === 'r' && <Result
         selected={selected}
         results={results}
+        source={source}
+        source_url={source_url}
         onNext={onUpdateQuestion}
         idx={idx}
       />}

@@ -9,8 +9,7 @@ import client from '../../app/apollo-client';
 import QuizHeader from './QuizHeader';
 import QuizBody, { QuizLoading } from './QuizBody';
 
-const TIME_SECONDS_TO_COUNTDOWN = 24;
-const TIME_TO_COUNTDOWN = TIME_SECONDS_TO_COUNTDOWN * 1000;
+const TIME_SECONDS_TO_COUNTDOWN:number = 24;
 
 type Question = {
   question: {
@@ -66,6 +65,7 @@ const GET_QUESTION_RESULTS = gql`
     questionDetails(questionid: $questionid){
       times_answered
       no_response
+      average_response_time
       choices {
         authorid
         author_name
@@ -75,6 +75,7 @@ const GET_QUESTION_RESULTS = gql`
     }
   }
 `;
+
 
 const Quiz = (props: {
   quizid: string,
@@ -87,6 +88,8 @@ const Quiz = (props: {
   const [results, updateResults] = useState({});
   const [selected, updateSelected] = useState(-1);
   const [reset, onReset] = useState(false);
+  const [score, updateScore] = useState(0);
+  const [responseTime, updateResponseTime] = useState(Date.now());
   const [view, updateView] = useState('q');
   
   // Queries
@@ -109,16 +112,17 @@ const Quiz = (props: {
     
     // save response
     const question = q;
+    const timeDiff = (Date.now() - responseTime) / 1000;    
+    const responsetime = Math.min(timeDiff, TIME_SECONDS_TO_COUNTDOWN);
 
-    // hack, response time via window object since context moves time at 3x the speed
-    const responsetime: string = window.localStorage.getItem('time');
-    
+    if (selected === question.correct.authorid) updateScore(score + (1/quizquestions.length));
+
     const variables = {
       quizid: quizid,
       questionid: question.questionid,
       selectedauthorid: selected,
       correctid: question.correct.authorid,
-      responsetime: (TIME_TO_COUNTDOWN - parseInt(responsetime))/1000
+      responsetime
     };
     await saveResponse({ variables })  
   
@@ -127,11 +131,18 @@ const Quiz = (props: {
     const questionData = resultData.data.questionDetails;
     updateResults(questionData);
     updateView('r');
+    
   }
 
   const onUpdateQuestion = async () => {
     updateView('l');
     let idx = i + 1; 
+
+    if (idx === 10) {
+      updateView('f');
+      return;
+    }
+
     const currQuestion = quizquestions[idx].question;
     
     const resultData = await getNextQuestion({ variables: { questionid: currQuestion.questionid } });
@@ -142,11 +153,16 @@ const Quiz = (props: {
     updateView('q');
     onReset(false);
     updateSelected(-1);
+    updateResponseTime(Date.now())
   }
 
   
   if (loading || !quizid) {
-    return <QuizLoading/>
+    return (
+        <div className="max-w-4xl m-auto h-screen min-h-full pt-16">
+        <QuizLoading />
+        </div>
+      )
   }
   
   const q = Object.keys(question).length === 0 ? data.questionDetails : question;
@@ -158,11 +174,14 @@ const Quiz = (props: {
         {/* <TimerMobile reset={reset}/> */}
         <QuizBody
           view={view}
+          score={score}
           text={q.text}
           choices={q.choicesRandom}
           avatar_url={q.correct.avatar_url}
           reset={reset}
           results={results}
+          source={q.source}
+          source_url={q.source_url}
           selected={selected}
           correctAuthor={q.correct.author_name}
           onUpdateView={onUpdateView}

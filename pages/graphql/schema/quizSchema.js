@@ -31,6 +31,7 @@ const quizSchema = gql`
     choicesRandom: [QuestionChoice!]!
     times_answered: Int!
     no_response: Int!
+    average_response_time:Float!
   }
 
   type QuestionChoice {

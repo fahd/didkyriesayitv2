@@ -19,6 +19,11 @@ const Question = {
     }
   },
   Question: {
+    average_response_time: async ({ questionid }, args, { models }) => {
+      return await models.Questions.findAverageResponseTime({
+        questionid
+      })
+    },
     correct: async ({questionid, correct} , args, { models }) => {
       return await models.Questions.findQuestionAuthorCorrect({
         questionid,

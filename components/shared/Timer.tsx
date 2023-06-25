@@ -66,11 +66,7 @@ export const Timer = (props: {
         const newOffset = circumference * ((newProgress) / 100);
         updateProgress(newProgress);
         updateOffset(newOffset);
-        const timeDiff = prevTime - interval;
-        
-        // hack, using context moves the passage of time at 3x the speed
-        window.localStorage.setItem('time', timeDiff.toString())
-        updateLocalTime(timeDiff);;
+        updateLocalTime(prevTime - interval);;
         return prevTime - interval;
       });
     }

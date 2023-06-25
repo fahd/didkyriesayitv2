@@ -8,7 +8,7 @@ export default function Next (props: {
   const { selected, onNext,text } = props;
   const disabled = !selected;
   return (
-    <div className='w-[99%] mt-4 flex flex-row justify-end'>
+    <div className='my-4 pb-2 flex flex-row justify-end'>
       <button
         onClick={() => onNext()}
         disabled={!selected}

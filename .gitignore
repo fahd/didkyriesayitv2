@@ -24,6 +24,8 @@
 
 .env
 
+/avatars
+
 # debug
 npm-debug.log*
 yarn-debug.log*
