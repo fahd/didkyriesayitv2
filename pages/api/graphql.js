@@ -18,7 +18,7 @@ const apolloServer = new ApolloServer({
   resolvers,
   formatError: error => {
     return {
-      message:'The Apollo Error:',
+      message:'Apollo Error:',
       error
     };
   },
