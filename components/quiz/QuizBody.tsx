@@ -175,7 +175,7 @@ const Finish = (props: {
           
           <div className='flex flex-col items-center my-8 pb-8'>
             <div className='font-faktProBlond'>You have achieved the title of</div>
-            <p className='text-5xl font-gtSuperBold py-2 mt-4'>{rank}</p>
+            <p className='text-5xl font-gtSuperBold py-4'>{rank}</p>
             <div className='flex flex-col text-center max-w-xl m-auto font-faktProNormal items-center'>
               {message}
             </div>
