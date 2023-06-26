@@ -3,6 +3,25 @@ import Image from 'next/image';
 import { Choices, ChoicesLoading, Timer, Next } from '../shared';
 import { scoreGame } from '../../lib/utils'
 
+// Refactor later -> Split components into their own folders. Ugly up here, cleaner classnames below like styled components. Done for my own readability
+import {
+  quizBodyContainer,avatarContainer, avatarFill,
+  quizLoadingContainer, quizLoading, quizBackground,
+  questionContainer, quizAvatar, quizAvatarMobile,
+  quizCorrectAuthor, questionText, questionTextMobileContainer,
+  questionTextMobile, resultContainer, resultAuthorInfo,
+  resultAuthorName, resultPercent, resultDataContainer,
+  resultDataSource, resultDataSourceUrl, resultDataResponses,
+  resultDataResponsesText, resultDataTime, resultDataTimeText,
+  finishContainer, finishTopHalf, finishScoreText,
+  finishScoreNumber,finishRank, finishRankTitle, finishTitle,
+  finishMessage, playAgainContainer, playAgainText,
+  finishThank, questionTextFull, avatarImageContainer,
+  avatarImageMobileContainer, quizCorrectAuthorMobile
+  
+
+} from './styles'
+
 type Choice = {
   authorid: number;
   author_name: string;
@@ -26,9 +45,9 @@ type Results = {
 export const QuizLoading = () => {
   return (
     <div className='load'>
-      <div className='flex flex-row my-12'>
-        <div className='min-w-[120px]'>
-          <div className={`w-[120px] h-[120px] bg-gray`}/>
+      <div className={quizLoadingContainer}>
+        <div className={quizLoading}>
+          <div className={quizBackground}/>
         </div>
       </div>  
       <ChoicesLoading/>
@@ -45,8 +64,7 @@ const Question = (props: {
 }) => {
   const { reset, choices, selected, onUpdateSelected, onUpdateView } = props;
   return (
-    <div className={`mb-4`}>
-
+    <div className={questionContainer}>
       <Choices reset={reset} choices={choices} selected={selected} updateSelected={onUpdateSelected}/>
       <Next onNext={onUpdateView} selected={selected > -1} text={'Next'}/>
     </div>
@@ -93,20 +111,22 @@ const ResultBar = (props: {
     }
     setTimeout(countDownUntilZero, 2);
   })
-
+  
   const sc = selected == parseInt(choice.authorid) ? (correct ? c : w) : '';
   
   return (
-    <div className='w-full mt-1 relative'>
-      <div className='text-meta font-faktProNormal flex items-center'>
-        <p className={`${authorid === '-1' && 'text-[#adb5cf]'} ${sc ? (sc === c ? 'font-faktProBlack text-right' : 'font-faktProBlack text-wrong') : ''}`}>{author_name}</p>
+    <div className={resultContainer}>
+      <div className={resultAuthorInfo}>
+        <p className={resultAuthorName(authorid, sc, c)}>{author_name}</p>
       </div>
-      <div className={`absolute text-sm font-faktProBlack text-meta`} style={{left: `${percentFill + 0.5}%`}}>{Math.round(percentFill)}%</div>
+      <div className={resultPercent} style={{left: `${percentFill + 0.5}%`}}>{Math.round(percentFill)}%</div>
+      
       <svg width="100%" height="30px"> 
         <line x1="0" y1="0" x2="100%" y2="0" stroke="#EEF2FF" strokeWidth='40px'/>a
         <line className='relative' x1="0" y1="0" x2={`${percentFill}%`} y2="0" stroke={barColor} strokeWidth='40px'>
         </line>
       </svg>
+
     </div>
   )
 }
@@ -127,7 +147,7 @@ const Result = (props: {
   if (results.no_response > 0) {
     resultsMap.push(<ResultBar
       key={-1}
-      selected={null}
+      selected={selected}
       choice={{
         authorid: '-1',
         author_name: "(Ran out of time 😅)",
@@ -140,17 +160,17 @@ const Result = (props: {
   const text = finished ? "Finish" : "Next";
   return (
     <div>
-    <div className='bg-[#f3f3f5] p-4 rounded'>
+    <div className={resultDataContainer}>
         <p>
-          <span className={'text-meta font-faktProBlack'}>📖 Source:&nbsp;</span>
-          <a className='underline text-meta'  target="_blank" href={source_url}>{source}</a>
+          <span className={resultDataSource}>📖 Source:&nbsp;</span>
+          <a className={resultDataSourceUrl}  target="_blank" href={source_url}>{source}</a>
         </p>
-        <p className={`text-meta font-faktProNormal text-md`}>
-          <span className={'font-faktProBlack'}>✏️ Responses: &nbsp;</span>
+        <p className={resultDataResponses}>
+          <span className={resultDataResponsesText}>✏️ Responses: &nbsp;</span>
            {times_answered}
         </p>
-        <p className={`text-meta font-faktProNormal text-md`}>
-          <span className={'font-faktProBlack'}>⏱️ Average Response Time: &nbsp;</span>
+        <p className={resultDataTime}>
+          <span className={resultDataTimeText}>⏱️ Average Response Time: &nbsp;</span>
            {average_response_time.toFixed(2)} seconds
         </p>
     </div>
@@ -169,26 +189,26 @@ const Finish = (props: {
   
   return (
     <div>
-      <div className='rounded flex flex-col bg-gray text-meta items-center relative h-3/4 py-8 px-10 justify-center text-2xl font-faktProBlond'>
-        <div className='flex flex-col items-center'>
-          <p className='text-meta text-md my-4'>💥 Bang! You went {adjective} <span className='font-faktProBlack'>{score}/10</span> from the field! </p>
+      <div className={finishContainer}>
+        <div className={finishTopHalf}>
+          <p className={finishScoreText}>💥 Bang! You went {adjective} <span className={finishScoreNumber}>{score}/10</span> from the field! </p>
           
-          <div className='flex flex-col items-center my-8 pb-8'>
-            <div className='font-faktProBlond'>You have achieved the title of</div>
-            <p className='text-5xl font-gtSuperBold py-4'>{rank}</p>
-            <div className='flex flex-col text-center max-w-xl m-auto font-faktProNormal items-center'>
+          <div className={finishRank}>
+            <div className={finishRankTitle}>You have achieved the title of</div>
+            <p className={finishTitle}>{rank}</p>
+            <div className={finishMessage}>
               {message}
             </div>
           </div>
 
           
-          <div className='mt-4'>
-            <span className='cursor-pointer text-meta underline font-faktProNormal' onClick={() => window.location.reload()}>Play again?</span> <br />
+          <div className={playAgainContainer}>
+            <span className={playAgainText} onClick={() => window.location.reload()}>Play again?</span> <br />
           </div>
 
         </div>
       </div>
-      <div className='font-faktProNormal bg-[#f3f3f5] text-[#333] relative h-1/4 p-4 text-lg mt-4'>
+      <div className={finishThank}>
         Thanks for playing!
       </div>
     </div>
@@ -230,40 +250,61 @@ const QuizBody = (props: {
 
   return (
     <div>
-      <div className='flex flex-row my-12 mb-8'>     
-        <div className=''>
-          <div className='relative w-[160px] h-[160px]'>
-            <div className={`bg-gray absolute top-0 right-0 bottom-0 left-0 z-10`}>
-            </div>
+      <div className={quizBodyContainer}>     
+        <div className={avatarContainer}>
+          <div className={avatarImageContainer}>
+            <div className={avatarFill}/>
             <Image
-              className={`relative z-20 object-cover`}
+              className={quizAvatar}
               src={imgSrc}
               alt={alt}
               width={0}
               height={0}
               sizes="100vw"
               style={{ width: '100%', height: '100%' }}
-              
               />
           </div>
-          {view === 'r' && <div className='my-2 text-center text-meta font-faktProBlack'>{correctAuthor}</div>}
+          {view === 'r' && <div className={quizCorrectAuthor}>{correctAuthor}</div>}
         </div>
 
-        <div className='grow'>
-          <p className='
-            mx-8
-            font-faktProBlack
-            text-[22px]
-            text-meta
-            '>
-           “{text}”
-          </p>
+        <div className={questionTextFull}>
+          <div>
+            <p className={questionText}>
+            “{text}”
+              </p>
+          </div>
+        </div>
+
+        <div className={'h-full'}>
+          <div className={avatarImageMobileContainer(view)}>
+            {view === 'r' && (
+              <div>
+                <div className={avatarFill}/>
+                <Image
+                className={quizAvatarMobile}
+                src={imgSrc}
+                alt={alt}
+                width={0}
+                height={0}
+                sizes="100vw"
+                style={{ width: '100%', height: '100%' }}
+                />
+              </div>
+            )}
+          </div>
+          {view === 'r' && <div className={quizCorrectAuthorMobile}>{correctAuthor}</div>}
         </div>
           
         <div>
-          <Timer reset={reset} updateView={onUpdateView} />
+          <Timer view={view} reset={reset} updateView={onUpdateView} />
         </div>
 
+      </div>
+      <div className={questionTextMobileContainer}>
+        
+        <p className={questionTextMobile(view)}>
+          “{text}”
+        </p>
       </div>
 
       {view === 'q' && <Question

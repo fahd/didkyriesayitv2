@@ -1,13 +1,12 @@
-import Button from './Button';
-import Choices, {ChoicesLoading} from './Choice';
-import Next from './Next';
-import { Timer } from './Timer';
+import Button from './Button/index';
+import Choices, {ChoicesLoading} from './Choice/index';
+import Next from './Next/index';
+import { Timer } from './Timer/index';
 
 export {
   Button,
   Choices,
   ChoicesLoading,
   Timer,
-  // TimerMobile,
   Next
 }

@@ -1,16 +1,16 @@
 'use client'
 
 import React, { useState, useContext, useEffect } from 'react';
-import TimerContextProvider, { TimerContext } from '../../context/timerContext';
+import {timerText, container } from './styles';
 
 const TIME_SECONDS_TO_COUNTDOWN = 24;
 const TIME_TO_COUNTDOWN = TIME_SECONDS_TO_COUNTDOWN * 1000;
 const WIDTH_INTERVAL = TIME_TO_COUNTDOWN / 100;
 const MILLISECOND_INTERVAL = 1;
 
-const CAUTION_TIME = 14000;
-const WARNING_TIME = 8000;
-const DANGER_TIME = 3000;
+const CAUTION_TIME = TIME_TO_COUNTDOWN - 10000;
+const WARNING_TIME = TIME_TO_COUNTDOWN - 16000;
+const DANGER_TIME = TIME_TO_COUNTDOWN - 21000;
 
 const colorGreen = '#00DF59'
 const colorYellow = '#F9C717';
@@ -20,6 +20,7 @@ const colorRed = '#F91717'
 export const Timer = (props: {
   updateView: () => void;
   reset: boolean;
+  view: string;
 }) => {
   const radius = 40;
   const circumference = 2 * Math.PI * radius;
@@ -30,8 +31,8 @@ export const Timer = (props: {
   const [offset, updateOffset] = useState(circumference * ((progress) / 100));
   const [localTime, updateLocalTime] = useState(TIME_TO_COUNTDOWN);
 
-  const { updateView, reset} = props;
-
+  const { updateView, view, reset } = props;
+  
   useEffect(() => {
     const countDownUntilZero = () => {
       if (reset) {
@@ -75,19 +76,8 @@ export const Timer = (props: {
 
   return (
     <div>
-    <div className='sm:hidden md:block relative'>
-      <div className='
-          absolute
-          h-full
-          w-full
-          flex
-          justify-center
-          items-center
-          text-meta
-          font-faktProBlack
-          text-xl
-        '><span>{`${(localTime / 1000).toFixed(0)}`}</span></div>
-      
+    <div className={container(view)}>
+      <div className={timerText}><span>{`${(localTime / 1000).toFixed(0)}`}</span></div>
       <svg
         className='relative'
         width="80"

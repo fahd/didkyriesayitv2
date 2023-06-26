@@ -6,8 +6,9 @@ import { useRouter } from 'next/navigation';
 
 import client from '../../app/apollo-client';
 // import { TimerMobile } from '../shared';
-import QuizHeader from './QuizHeader';
-import QuizBody, { QuizLoading } from './QuizBody';
+import Header from './header';
+import Body, { QuizLoading } from './body';
+import { quizContainer } from './styles';
 
 const TIME_SECONDS_TO_COUNTDOWN:number = 24;
 
@@ -159,7 +160,7 @@ const Quiz = (props: {
   
   if (loading || !quizid) {
     return (
-        <div className="max-w-4xl m-auto h-screen min-h-full pt-16">
+        <div className={quizContainer}>
         <QuizLoading />
         </div>
       )
@@ -169,10 +170,9 @@ const Quiz = (props: {
 
   return (
     <div>
-      <div className="max-w-4xl m-auto h-screen min-h-full pt-16">
-        <QuizHeader i={i} />
-        {/* <TimerMobile reset={reset}/> */}
-        <QuizBody
+      <div className={quizContainer}>
+        <Header i={i} />
+        <Body
           view={view}
           score={score}
           text={q.text}

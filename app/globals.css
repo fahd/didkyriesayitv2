@@ -50,7 +50,7 @@ body {
 }
 
 .home-bg {
-  background-image: url('../public/kyrie_universe.png');
+  background-image: url('https://didkyriesayit.s3.us-east-2.amazonaws.com/kyrie_universe.png');
   height: 100%;
   background-repeat: no-repeat;
   background-size: contain;

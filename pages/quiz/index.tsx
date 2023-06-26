@@ -1,4 +1,4 @@
-import { ApolloProvider, gql } from "@apollo/client";
+import { gql } from "@apollo/client";
 import Quiz from '../../components/quiz';
 import client from '../../app/apollo-client';
 import Head from 'next/head'
@@ -29,13 +29,16 @@ export default function QuizPage(props: {
   quizquestions: QuizQuestion[]
 }) {
   const { quizid, quizquestions } = props;
-  // console.log('quizid',quizid);
-  // console.log('quizquestions',quizquestions);
   return (
-    // <div>1</div>
     <div>
       <Head>
         <title>Did Kyrie Say It?</title>
+        <link rel="canonical" href="https://www.didkyriesayit.com"/>
+        <link rel="icon" href="https://didkyriesayit.s3.us-east-2.amazonaws.com/icons/favicon-32x32.png" type="image/x-icon"/>
+        <link href="https://didkyriesayit.s3.us-east-2.amazonaws.com/icons/apple-touch-icon.png" rel="apple-touch-icon"/>
+        <meta content="Did Kyrie Say it?"/>
+        <meta content="Did Kyrie Say it?" property="og:description"/>
+        <meta content="Did Kyrie Say it?" property="twitter:description"/>
       </Head>
       <Quiz quizid={quizid} quizquestions={quizquestions} />
     </div>

@@ -1,5 +1,10 @@
 'use client'
 
+import {
+  choiceDecorator, choiceLoading,
+  choiceContainer, choicesLoading
+} from './styles';
+  
 type Choice = {
   authorid: number;
   author_name: string;
@@ -17,43 +22,14 @@ const Choice = (props: {
   return (
     <div
       onClick={() => onUpdateSelected(id)}
-      className={`
-        cursor-pointer
-        font-faktProNormal
-        p-2
-        text-center
-        bg-gray
-        text-xl
-        w-full
-        rounded
-        border-2
-        
-        ${selected ? 'text-question-answer hover:bg-question-answer-fill bg-question-answer-fill border-question-answer-b' : 'border-question-b text-question bg-question-fill hover:bg-question-fill-hover'}
-        basis-1/2
-        m-1
-        my-1
-        py-4
-        max-w-[49%]
-      `}
+      className={choiceDecorator(selected)}
     >{text}</div>
   )
 }
 const ChoiceLoading = () => {
   return (
     <div
-      className={`
-        p-2
-        text-center
-        bg-gray
-        w-full
-        rounded
-        text-question
-        basis-1/2
-        m-1
-        my-4em
-        max-w-[49%]
-        min-h-[75px]
-      `}
+      className={choiceLoading}
     />
   )
 }
@@ -64,7 +40,7 @@ export default function Choices(props: {
   choices: Choice[]
   updateSelected: (id:number) => void
 }) {
-  const { choices, selected, reset, updateSelected } = props;
+  const { choices, selected, updateSelected } = props;
 
   const onUpdateSelected = (id:number):void => {
     updateSelected(id);
@@ -72,11 +48,7 @@ export default function Choices(props: {
 
   return (
     <div>
-      <div className={
-        `
-        flex flex-row flex-wrap justify-center
-        `
-      }>
+      <div className={choiceContainer}>
         {/* Question Choices */}
         {choices.map((choice, idx) => (
           <Choice
@@ -95,7 +67,7 @@ export default function Choices(props: {
 export const ChoicesLoading = () => {
   return (
     <div>
-      <div className={`flex flex-row flex-wrap justify-center`}>
+      <div className={choicesLoading}>
         <ChoiceLoading/>
         <ChoiceLoading/>
         <ChoiceLoading/>

@@ -3,6 +3,22 @@
 import Image from 'next/image';
 import { Button } from '../shared';
 import { useRouter } from 'next/navigation';
+import {
+  main,
+  leftHero,
+  rightContainer,
+  rightText,
+  title,
+  description,
+  quizDescription,
+  buttonContainer,  
+  avatarCircle,
+  mobileHeader
+
+} from './styles';
+
+
+const src = 'https://didkyriesayit.s3.us-east-2.amazonaws.com/avatars/1.png';
 
 export default function Home () {  
   const router = useRouter();
@@ -13,65 +29,30 @@ export default function Home () {
 
   return (
     <div>
-    {/* <header>Home</header> */}
-      <main className="
-        flex
-        flex-col-reverse
-        md:flex-row
-        h-screen
-        min-h-full
-        p-4
-        sm:p-2
-        md:p-24
-        lg:p-36
-        ">
-        {/* Left Image */}
-        <div className="
-          min-screen
-          md:flex-1
-          w-32 
-          home-bg
-          md:mx-4
-          w-full"/>
-        {/* Right Text */}
-        <div className="
-            sm:flex-1
-            min-screen
-            px-2
-            flex
-            flex-col
-            justify-center
-            md:max-h-64
-            md:max-h-96
-            lg:max-h-128
-            ">
-          <div className='
-            max-w-3xl
-            '>
-            <h1 className='
-              text-2xl
-              md:text-4xl
-              lg:text-6xl
-              font-gtSuperBold
-              text-center
-              md:text-left
-              text-meta
-              '>Did Kyrie Say It?
-            </h1>
-            <p className='
-              font-faktProBlond
-              pt-10
-              pr-10
-              text-3xl
-              text-meta
-              max-w-xl
-            '>
-              A short ten question quiz to gauge how enlightened you <em>really</em> are 👀.
+      <main className={main}>
+        <div className={leftHero}/>
+        <div className={rightContainer}>
+          <div className={rightText}>
+            <div className={mobileHeader}>
+                <Image
+                  className={avatarCircle}
+                  src={src}
+                  alt={'Kyrie Irving'}
+                  width={50}
+                  height={50}
+                  // sizes="100vw"
+                  // style={{ width: '100%', height: '100%' }}
+                  />
+                <h1 className={title}>Did Kyrie Say It?</h1>
+              </div>
+            <div className={description}>
+              <p>A short ten question quiz to gauge how enlightened you <em>really</em> are 👀.</p>
               <br />
-              <br />
-              <span className='font-faktProBlond text-[20px] text-[#6f7485]'>(Each quiz is randomly generated from 100 questions. You can take it more than once!)</span>
-            </p>
-            <div className='max-w-md'>
+              <p className={quizDescription}>
+                (Quiz is randomly generated from 100 questions - you can take it more than once!)
+              </p>
+            </div>
+            <div className={buttonContainer}>
               <Button
                 onNavigateQuiz={onNavigateQuiz}
                 type={'start'}
