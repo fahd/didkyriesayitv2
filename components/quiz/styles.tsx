@@ -264,7 +264,7 @@ const finishMessage = `
   max-w-f
   flex
   flex-col
-  text-center
+  text-left
   m-auto
   font-faktProNormal
   items-center
