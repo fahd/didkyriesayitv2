@@ -55,7 +55,7 @@ const Question = (props: {
 
 const green = '#00DF59';
 const gray = '#d6def5';
-const TIME_TO_COUNTDOWN = .75 * 1000;
+const TIME_TO_COUNTDOWN = .5 * 1000;
 const c = 'CORRECT';
 const w = 'WRONG';
 
@@ -91,7 +91,7 @@ const ResultBar = (props: {
         return prevTime - interval;
       });
     }
-    setTimeout(countDownUntilZero, 1);
+    setTimeout(countDownUntilZero, 2);
   })
 
   const sc = selected == parseInt(choice.authorid) ? (correct ? c : w) : '';
@@ -166,11 +166,12 @@ const Finish = (props: {
 }) => {
   const { score } = props;
   const { rank, message, adjective } = scoreGame(score);
+  
   return (
     <div>
       <div className='rounded flex flex-col bg-gray text-meta items-center relative h-3/4 py-8 px-10 justify-center text-2xl font-faktProBlond'>
         <div className='flex flex-col items-center'>
-          <p className='text-meta text-md my-4'>🎉 Congrats, you went {adjective} <span className='font-faktProBlack'>{Math.floor(score*10)}/10</span> from the field! </p>
+          <p className='text-meta text-md my-4'>🎉 Congrats, you went {adjective} <span className='font-faktProBlack'>{score}/10</span> from the field! </p>
           
           <div className='flex flex-col items-center my-8 pb-8'>
             <div className='font-faktProBlond'>You have achieved the title of</div>

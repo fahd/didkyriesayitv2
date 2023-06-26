@@ -115,7 +115,7 @@ const Quiz = (props: {
     const timeDiff = (Date.now() - responseTime) / 1000;    
     const responsetime = Math.min(timeDiff, TIME_SECONDS_TO_COUNTDOWN);
 
-    if (selected === question.correct.authorid) updateScore(score + (1/quizquestions.length));
+    if (selected === question.correct.authorid) updateScore(score + 1);
 
     const variables = {
       quizid: quizid,

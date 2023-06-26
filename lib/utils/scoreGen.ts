@@ -56,8 +56,10 @@ const scoreMap: {
   },
  }
 
-export const scoreGame = (score:number):{rank:string, message:string, adjective: string} => {
-  const scorePercent: number = Math.floor(score * 10);
-  const scoreDetails: { rank: string, message:string} = scoreMap[scorePercent];
+export const scoreGame = (score: number): { rank: string, message: string, adjective: string } => {
+  // this is in case we want to have quizzes of variable length in the future
+    // e.g. 92% right / 10 = 9.2% => floor(9.2) => 9
+  // const scorePercent: number = Math.floor(score * 10);
+  const scoreDetails: { rank: string, message:string} = scoreMap[score];
   return { ...scoreDetails, adjective: getRandomAdjective() }
  }
