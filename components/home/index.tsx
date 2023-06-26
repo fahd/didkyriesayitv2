@@ -69,7 +69,7 @@ export default function Home () {
               A short ten question quiz to gauge how enlightened you <em>really</em> are 👀.
               <br />
               <br />
-              <span className='font-faktProBlond text-[22px]'>(Each quiz is randomly generated from 100 questions. You can take it more than once!)</span>
+              <span className='font-faktProBlond text-[20px] text-[#6f7485]'>(Each quiz is randomly generated from 100 questions. You can take it more than once!)</span>
             </p>
             <div className='max-w-md'>
               <Button

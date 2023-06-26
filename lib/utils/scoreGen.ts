@@ -1,4 +1,4 @@
-const adjectives = ['a blistering', 'a scorching', 'a mind-numbing', 'a sweltering', 'a blazing', 'a staggering', 'a vitriolic', 'an astonishing'];
+const adjectives = ['a blistering', 'a scorching', 'a mind-numbing', 'a sweltering', 'a blazing', 'a staggering', 'an insane', 'an astonishing'];
 
 const getRandomAdjective = () => {
   return adjectives[Math.floor(Math.random() * adjectives.length)]

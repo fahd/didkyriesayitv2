@@ -171,12 +171,12 @@ const Finish = (props: {
     <div>
       <div className='rounded flex flex-col bg-gray text-meta items-center relative h-3/4 py-8 px-10 justify-center text-2xl font-faktProBlond'>
         <div className='flex flex-col items-center'>
-          <p className='text-meta text-md my-4'>🎉 Congrats, you went {adjective} <span className='font-faktProBlack'>{score}/10</span> from the field! </p>
+          <p className='text-meta text-md my-4'>💥 Bang! You went {adjective} <span className='font-faktProBlack'>{score}/10</span> from the field! </p>
           
           <div className='flex flex-col items-center my-8 pb-8'>
             <div className='font-faktProBlond'>You have achieved the title of</div>
-            <p className='text-5xl font-gtSuperBold my-4'>{rank}</p>
-            <div className='flex flex-col text-center max-w-3xl m-auto font-faktProNormal items-center'>
+            <p className='text-5xl font-gtSuperBold py-2 mt-4'>{rank}</p>
+            <div className='flex flex-col text-center max-w-xl m-auto font-faktProNormal items-center'>
               {message}
             </div>
           </div>
