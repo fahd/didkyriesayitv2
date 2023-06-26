@@ -11,48 +11,48 @@ const scoreMap: {
   }
  } =  {
   0: {
-    rank:'😤 Westbrook',
+    rank:'The Westbrook 😤',
     message:'You kept missing. But you kept shooting. That\'s all that matters.'
   },
   1: {
-    rank:'🔫  Ja Morant\'s Pistol',
-    message:''
+    rank:'Ja Morant\'s Gun 🔫 ',
+    message:'You went off! Unfortunately, not in a good way. Just like the NBA, there are really no suspensions here. Try again. '
   },
   2: {
-    rank:'🐻 Bear Poker',
-    message:''
+    rank:'The Bear Poker 🐻 ',
+    message:'In your quest for victory, you managed to back up just how dominant of a player you really are.'
   },
   3: {
-    rank:'😲 Doc Rivers',
+    rank:'Doc Rivers 😦',
     message: 'Because sometimes, 3 is just good enough.',
   },
   4: {
-    rank:'🎥 Video Coordinator',
-    message:'Not bad, but you need to spend more time watching film.'
+    rank:'Video Coordinator 🎥',
+    message:'You need to spend more time watching film. Luckily, you are already inside all day, which is half the battle. Get to work.'
   },
   5: {
-    rank:'🧀 Phoenix Nacho',
-    message:'The nachos are stale, the cheese is cold, the hot dog buns are crusty....but a calorie is a calorie.'
+    rank:'Phoenix Nachos 🧀',
+    message:'The nachos are stale, the cheese is cold....but a calorie is a calorie. It\'s better than nothing.'
   },
   6: {
-    rank:'👊 Fist of Draymond',
-    message:''
+    rank:'Fist of Draymond 👊',
+    message:'I\'ll admit, your performance was mediocre - but you more than made up for it in your reckless flailing around. Nice job - we\'ll get your contract extension ready.'
   },
   7: {
-    rank:'🧽 Lethal Scrub',
-    message:'Not bad - at any given moment you can drop a LETHAL 2 points off the bench.'
+    rank:'Lethal Scrub 🧽',
+    message:'Never underestimate a player who can drop a LETHAL 1 point off the bench at any given moment.'
   },
   8: {
-    rank:'🏀 Playoff P',
-    message:''
+    rank:'Playoff 🅿',
+    message:'No OT tonight (because your shot hit the side of the backboard).'
   },
   9: {
-    rank:'👑 King Nephew',
-    message:''
+    rank:'Play-In Champion 🥈',
+    message:'Never doubt the heart of the runner-up - you took the trophy before the playoffs even started. Well-deserved run.'
   },
   10: {
-    rank:'🫡 Play-In Champion',
-    message:''
+    rank:'The Nephew Shepherd 👑',
+    message:"You transcended the corporeal realm and vaulted into the nexus of existence. You are forever attuned to the symphony of infinite enlightenment. This is the end - the omega. You did it."
   },
  }
 

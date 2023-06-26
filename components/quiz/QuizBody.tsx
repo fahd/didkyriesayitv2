@@ -173,9 +173,9 @@ const Finish = (props: {
           <p className='text-meta text-md my-4'>🎉 Congrats, you went {adjective} <span className='font-faktProBlack'>{Math.floor(score*10)}/10</span> from the field! </p>
           
           <div className='flex flex-col items-center my-8 pb-8'>
-            <div className='font-faktProBlond'>Your rank is:</div>
+            <div className='font-faktProBlond'>You have achieved the title of</div>
             <p className='text-5xl font-gtSuperBold my-4'>{rank}</p>
-            <div className='flex flex-col font-faktProNormal items-center'>
+            <div className='flex flex-col text-center max-w-3xl m-auto font-faktProNormal items-center'>
               {message}
             </div>
           </div>
@@ -230,8 +230,8 @@ const QuizBody = (props: {
   return (
     <div>
       <div className='flex flex-row my-12 mb-8'>     
-        <div className=' min-h-[140px]'>
-          <div className='relative w-[140px] h-[140px]'>
+        <div className=''>
+          <div className='relative w-[160px] h-[160px]'>
             <div className={`bg-gray absolute top-0 right-0 bottom-0 left-0 z-10`}>
             </div>
             <Image
