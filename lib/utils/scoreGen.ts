@@ -28,7 +28,7 @@ const scoreMap: {
   },
   4: {
     rank:'Video Coordinator 🎥',
-    message:'You need to spend more time watching film. Luckily, you are already inside all day, which is half the battle. Get to work.'
+    message:'You need to spend more time watching film. Luckily, you are already inside all day -  get to work.'
   },
   5: {
     rank:'Phoenix Nachos 🧀',
@@ -36,11 +36,11 @@ const scoreMap: {
   },
   6: {
     rank:'Fist of Draymond 👊',
-    message:'I\'ll admit, your performance was mediocre - but you more than made up for it in your reckless flailing around. Nice job - we\'ll get your contract extension ready.'
+    message:'I\'ll admit, your performance was mediocre - but man, you can throw a punch. Nice job - we\'ll get your contract extension ready.'
   },
   7: {
     rank:'Lethal Scrub 🧽',
-    message:'Never underestimate a player who can drop a LETHAL 1 point off the bench at any given moment.'
+    message:'Look at it this way - you can\'t get turnovers without playing time 🧠.'
   },
   8: {
     rank:'Playoff 🅿',

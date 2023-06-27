@@ -1,7 +1,13 @@
-import { gql } from "@apollo/client";
+import { gql, ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 import Quiz from '../../components/quiz';
-import client from '../../app/apollo-client';
 import Head from 'next/head'
+const isProd = process.env.NODE_ENV === 'production';
+
+
+export const client = new ApolloClient({
+    uri: `http://localhost:3000/api/graphql`,
+    cache: new InMemoryCache(),
+});
 
 const QUERY_NEW_QUIZ = gql`
   query {
@@ -24,7 +30,7 @@ type QuizQuestion = {
   }
 } 
   
-export default function QuizPage(props: {
+export default function QuizContainer (props: {
   quizid: string
   quizquestions: QuizQuestion[]
 }) {
@@ -44,6 +50,7 @@ export default function QuizPage(props: {
     </div>
   )
 }
+
 
 export async function getStaticProps() {
   const { data } = await client.query({

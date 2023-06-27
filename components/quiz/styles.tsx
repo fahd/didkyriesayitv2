@@ -136,7 +136,7 @@ const avatarImageMobileContainer = (view:string) => `
   relative
   
   min-w-[300px]
-  min-h-[200px]
+  min-h-[250px]
 
   md:hidden
 `
@@ -251,7 +251,7 @@ const finishRankTitle = `
 `
 
 const finishTitle = `
-  text-3xl
+  text-4xl
   font-gtSuperBold
   pt-2
   pb-4

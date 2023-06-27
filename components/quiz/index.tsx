@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { gql, useQuery, useLazyQuery, useMutation, ApolloProvider } from "@apollo/client";
 import { useRouter } from 'next/navigation';
 
-import client from '../../app/apollo-client';
+import { client } from '../../pages/quiz';
 // import { TimerMobile } from '../shared';
 import Header from './header';
 import Body, { QuizLoading } from './body';
