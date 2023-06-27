@@ -1,8 +1,5 @@
 const Quiz = {
   Query: {
-    hello: async() => {
-      return 'world'
-    },
     generateQuiz: async (parent, args, { models }) => {
       const { quizid } = await models.Quiz.createQuiz();
       
