@@ -30,7 +30,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <noscript>
             <iframe
-              src="https://www.googletagmanager.com/ns.html?id=GTM-"
+              src={`https://www.googletagmanager.com/ns.html?id=GTM-${process.env.GTM}`}
               height="0"
               width="0"
               style={{ display: "none", visibility: "hidden" }}>

@@ -275,7 +275,7 @@ const finishTitle = `
   pt-2
   pb-4
   text-center
-  text-2xl
+  text-3xl
   md:text-5xl
 `;
 
@@ -284,11 +284,12 @@ const finishMessage = `
   max-w-f
   flex
   flex-col
-  text-sm
+  text-[18px]
   m-auto
   font-faktProNormal
   items-center
   text-center
+  leading-6
   
   md:text-lg
   md:text-left

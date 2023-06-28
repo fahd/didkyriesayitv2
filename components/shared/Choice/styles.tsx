@@ -28,11 +28,13 @@ const choiceLoading = `
   w-full
   rounded
   text-question
-  basis-1/2
   m-1
   my-4em
-  max-w-[49%]
   min-h-[75px]
+  max-w-full
+  basis-1/1
+  md:basis-1/2
+  md:max-w-[49%]
 `
 
 const choicesLoading = `

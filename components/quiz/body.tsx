@@ -121,7 +121,7 @@ const ResultBar = (props: {
       <div className={resultAuthorInfo}>
         <p className={resultAuthorName(authorid, sc, c)}>{author_name}</p>
       </div>
-      <div className={resultPercent} style={{left: `${percentFill + 0.5}%`}}>{Math.round(percentFill)}%</div>
+      <div className={resultPercent} style={{left: `${percentFill + 0.51}%`}}>{Math.round(percentFill)}%</div>
       
       <svg width="100%" height="30px"> 
         <line x1="0" y1="0" x2="100%" y2="0" stroke="#EEF2FF" strokeWidth='40px'/>a
@@ -173,7 +173,7 @@ const Result = (props: {
         </p>
         <p className={resultDataTime}>
           <span className={resultDataTimeText}>⏱️ Average Response Time: &nbsp;</span>
-           {average_response_time.toFixed(2)} seconds
+           {average_response_time.toFixed(2)}s
         </p>
     </div>
       {resultsMap}

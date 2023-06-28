@@ -48,8 +48,8 @@ const rightText = `
 
 const title = `
   font-gtSuperBold
-
-  text-4xl
+  text-3xl
+  md:text-4xl
   text-meta
 
   ml-4
@@ -66,8 +66,8 @@ const title = `
 const description = `
   font-faktProBlond
   text-meta
-  text-2xl
   max-w-xl
+  text-xl
   
   
   sm:m-auto
@@ -76,6 +76,7 @@ const description = `
   
   md:pt-6
   md:max-w-md
+  md:text-2xl
   
   lg:max-w-xl
   lg:text-3xl
@@ -84,8 +85,10 @@ const description = `
 
 const quizDescription = `
   font-faktProBlond
-  text-[20px]
+  text-[18px]
+  md:text-[20px]
   text-[#6f7485]
+
 `
 
 const buttonContainer = `

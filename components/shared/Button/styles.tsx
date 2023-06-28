@@ -1,15 +1,17 @@
 const button = `
   cursor-pointer
   mt-16
-  font-faktProNormal
+  font-faktProBlack
+  antialiased
   p-4
   text-center
   bg-gray
-  text-2xl
   w-full
   rounded
   text-meta
   hover:bg-gray-hover
+  text-lg
+  md:text-xl
   transition-all
 `
 

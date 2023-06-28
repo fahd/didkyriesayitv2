@@ -5,26 +5,28 @@
 
 @font-face {
   font-family:'Circular Medium';
-  src:url('../public/assets/fonts/Circular/CircularStd-Medium.ttf');
-}
-
-@font-face {
-  font-family:'Fakt Pro Black';
-  src:url('../public/assets/fonts/Fakt-Pro/FaktPro-Semibold.ttf');
+  src:url('../public/assets/fonts/Circular/CircularStdMedium.ttf');
 }
 
 @font-face {
   font-family:'Fakt Pro Blond';
-  src:url('../public/assets/fonts/Fakt-Pro/FaktPro-Blond.ttf');
-}
-@font-face {
-  font-family:'Fakt Pro Normal';
-  src:url('../public/assets/fonts/Fakt-Pro/FaktPro-Normal.ttf');
+  src:url('../public/assets/fonts/Fakt/FaktProBlond.ttf');
 }
 
 @font-face {
+  font-family:'Fakt Pro Normal';
+  src:url('../public/assets/fonts/Fakt/FaktProNormal.ttf');
+}
+
+@font-face {
+  font-family:'Fakt Pro Black';
+  src:url('../public/assets/fonts/Fakt/FaktProBlack.ttf');
+}
+
+
+@font-face {
   font-family:'GT Super Bold';
-  src:url('../public/assets/fonts/gt-super/GT-Super-Display-Bold.ttf');
+  src:url('../public/assets/fonts/gt-super/GTSuperDisplayBold.ttf');
 }
 
 :root {

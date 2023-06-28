@@ -23,7 +23,7 @@
 *.pem
 
 # db
-
+lib/db/
 
 .env
 
