@@ -1,31 +1,36 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## About
 
-## Getting Started
+[I originally launched this in 2019](https://fahdsheikh.webflow.io/blog/play-stupid-games-win-stupid-prizes) and it was a hit with Reddit. Unfortunately, Heroku took down the application because I was being cheap and using their free service. So I updated it for 2023 (just in time for free agency!)
 
-First, run the development server:
+The motivation was simple. Kyrie Irving is an NBA player who at times makes outlandish, conspiratorial, and controversial statements, often unapologetically. I gamified this to share some of these quotes, partly to see if it was just me severely miscontruing what he's saying and if others had a similar degree of confusion. 
 
+When I originally created this there were only two choices per question, with an average correct response rate of 63%, so I made it multiple choice this time to heighten the difficulty. We'll see what the data says this time around!
+
+(Kyrie if you're reading this I'm sorry, I know I have too much free time.)
+
+Site is live on [didkyriesayit.com](https://didkyriesayit.com). 
+
+## To Run
 ```bash
-npm run dev
-# or
+# Install dependencies
+yarn install
+
+# Set up database
+yarn schema
+
+# Seed database -> requires PostgreSQL installed
+yarn schema
+
+# Run in dev
 yarn dev
-# or
-pnpm dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
 ## Learn More
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+This is a Next.js application. Next.js is pretty cool. 
 
 ## Deploy on Vercel
 
