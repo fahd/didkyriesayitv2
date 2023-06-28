@@ -11,6 +11,7 @@ When I originally created this there were only two choices per question, with an
 Site is live on [didkyriesayit.com](https://didkyriesayit.com). 
 
 ## To Run
+Note -> postgres is required to install beforehand. So like...install it.
 ```bash
 # Install dependencies
 yarn install
@@ -18,8 +19,8 @@ yarn install
 # Set up database
 yarn schema
 
-# Seed database -> requires PostgreSQL installed
-yarn schema
+# Seed database from csvs -> requires PostgreSQL installed
+yarn seed
 
 # Run in dev
 yarn dev
@@ -31,9 +32,3 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 ## Learn More
 
 This is a Next.js application. Next.js is pretty cool. 
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
