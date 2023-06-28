@@ -12,7 +12,7 @@ const scoreMap: {
  } =  {
   0: {
     rank:'The Westbrook 😤',
-    message:'You kept missing. But you kept shooting. That\'s all that matters.'
+    message:'You kept missing. But, you kept shooting. That\'s all that matters.'
   },
   1: {
     rank:'Ja Morant\'s Gun 🔫 ',

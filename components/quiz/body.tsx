@@ -215,13 +215,13 @@ const Finish = (props: {
               />
               <span>Share</span>
             </a>
-            <div className={playAgainText} onClick={() => window.location.reload()}>😈 Play again?</div>
+            <div className={playAgainText} onClick={() => window.location.reload()}>Play again?</div>
           </div>
 
         </div>
       </div>
       <div className={finishThank}>
-        Thank you for playing! I made this mainly as a side project. <br/>If this was interesting at all feel free to reach out below.
+        Thank you for playing! I made this mainly as a side project. <br/><br/>If this was interesting at all feel free to reach out.
         <div className={social}>
           <div>
             <a href='https://github.com/fahd/didkyriesayitv2' target='_blank' className='inline-block'>
@@ -233,7 +233,7 @@ const Finish = (props: {
                     width={20}
                     height={20}
                     />
-                    <span>View code</span>
+                    <span>Code</span>
               </div>
             </a>
           </div>
@@ -252,7 +252,7 @@ const Finish = (props: {
           <div>
             <a href='mailto:littlehabib@proton.me' target='_blank' className='inline-block'>
               <div className={`${socialIconContainer} bg-[#666]`}>
-                  <span>&nbsp; ✉️ Email &nbsp;</span>
+                  <span>✉️ Email &nbsp;</span>
               </div>
             </a>
             </div>

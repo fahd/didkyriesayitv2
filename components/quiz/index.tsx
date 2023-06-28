@@ -109,6 +109,7 @@ const Quiz = (props: {
 
   const onUpdateView = async () => {
     // push /quiz/[quizHash]/[questionId]?results=true
+    window.scrollTo(0, 0);
 
     // reset
     onReset(true);
@@ -140,6 +141,7 @@ const Quiz = (props: {
 
   const onUpdateQuestion = async () => {
     updateView('l');
+    window.scrollTo(0, 0);
     let idx = i + 1; 
 
     if (idx === 10) {

@@ -5,7 +5,8 @@ const quizContainer = `
   h-screen
   min-h-full
   p-4
-  pt-16
+  pt-4
+  md:pt-16
 `
 
 const quizBodyContainer = `
@@ -107,7 +108,7 @@ const questionTextMobileContainer = `
 
 const questionTextMobile = (view:string):string => `
   font-faktProBlack
-  text-[23px]
+  text-[20px]
   text-meta
   text-left
   rounded
@@ -153,14 +154,22 @@ const avatarFill = `
 
 // Quiz Loading
 const quizLoadingContainer = `
-  flex flex-row my-12
+  justify-center
+  md:justify-start
+  flex
+  flex-row
+  my-12
 `
 
 const quizLoading = `
   min-w-[120px]
 `
 const quizBackground = `
-  w-[120px] h-[120px] bg-gray
+  min-w-[300px]
+  min-h-[250px]
+  md:min-w-[120px]
+  md:min-h-[120px]
+  bg-gray
 `
 
 // Question
@@ -184,7 +193,8 @@ const resultDataContainer = `
   bg-[#f3f3f5]
   p-4
   rounded
-  text-lg
+  text-md
+  md:text-lg
 `
 
 const resultDataSource = `
@@ -214,8 +224,12 @@ const finishContainer = `
   justify-center
   text-2xl
   font-faktProBlond
-  py-6
-  px-8
+
+  py-2
+  px-4
+
+  md:py-6
+  md:px-8
   md:pt-8
   md:pb-10
   md:px-10
@@ -228,7 +242,8 @@ const finishTopHalf = `
 
 const finishScoreText = `
   text-meta
-  text-md
+  text-[18px]
+  md:text-md
   my-4
   font-faktProBlond
 `
@@ -238,25 +253,47 @@ const finishScoreNumber = `
 `
 
 const finishRank = `
-  flex flex-col items-center my-8
+  flex flex-col items-center
   rounded
   border-[#dfe6fd]
   border-4
-  p-8
+  p-4
+  my-4
+  md:my-8
   md:p-12
 `
 
 const finishRankTitle = `
   font-faktProBlond
+  text-center
+  text-[18px]
+  md:text-md
 `
 
 const finishTitle = `
-  text-4xl
   font-gtSuperBold
   pt-2
   pb-4
+  text-center
+  text-2xl
   md:text-5xl
 `;
+
+
+const finishMessage = `
+  max-w-f
+  flex
+  flex-col
+  text-sm
+  m-auto
+  font-faktProNormal
+  items-center
+  text-center
+  
+  md:text-lg
+  md:text-left
+  md:max-w-xl
+`
 
 const finishShare = ` 
   bg-[#1D9BF0]
@@ -270,18 +307,6 @@ const finishShare = `
   rounded
 `;
 
-const finishMessage = `
-  
-  max-w-f
-  flex
-  flex-col
-  text-left
-  m-auto
-  font-faktProNormal
-  items-center
-
-  md:max-w-xl
-`
 
 const playAgainContainer = `
   mt-2
@@ -297,13 +322,11 @@ const playAgainContainer = `
   cursor-pointer 
   text-meta 
   font-faktProNormal
-  bg-meta
   rounded
   py-1
   px-4
-  text-white
-  bg-[#839eff]
-  hover:bg-[#728ce7]
+  text-question-answer
+  bg-question-answer-fill
 `
 
 const finishThank = `
@@ -312,8 +335,9 @@ const finishThank = `
   text-[#444] 
   relative 
   h-1/4 
-  p-4 
-  text-lg 
+  p-4
+  text-md 
+  md:text-lg 
   mt-4
   flex
   flex-col
@@ -330,6 +354,7 @@ const socialIconContainer = `
   text-[#fff]
   text-[16px]
   flex
+  grow
   rounded
   py-1
   px-2
@@ -339,6 +364,7 @@ const socialIconContainer = `
 const social = `
   flex
   py-4
+  items-center
   justify-center
   md:justify-start
 
