@@ -255,8 +255,19 @@ const finishTitle = `
   font-gtSuperBold
   pt-2
   pb-4
-
   md:text-5xl
+`;
+
+const finishShare = ` 
+  bg-[#1D9BF0]
+  hover:bg-[#198ad5]
+  text-white
+  py-1
+  px-4
+  mr-2
+  justify-center
+  flex
+  rounded
 `;
 
 const finishMessage = `
@@ -272,11 +283,66 @@ const finishMessage = `
   md:max-w-xl
 `
 
-const playAgainContainer = 'mt-4';
+const playAgainContainer = `
+  mt-2
+  flex
+  flex-row
+  items-center
+  text-[18px]
+  font-faktProNormal
+  
+  `;
+  
+  const playAgainText = `
+  cursor-pointer 
+  text-meta 
+  font-faktProNormal
+  bg-meta
+  rounded
+  py-1
+  px-4
+  text-white
+  bg-[#839eff]
+  hover:bg-[#728ce7]
+`
 
-const playAgainText = 'cursor-pointer text-meta underline font-faktProNormal'
+const finishThank = `
+  font-faktProNormal 
+  bg-[#f3f3f5] 
+  text-[#444] 
+  relative 
+  h-1/4 
+  p-4 
+  text-lg 
+  mt-4
+  flex
+  flex-col
+`
 
-const finishThank = 'font-faktProNormal bg-[#f3f3f5] text-[#333] relative h-1/4 p-4 text-lg mt-4'
+const socialIcon = `
+  mr-1
+  inline
+`
+
+const socialIconContainer = `
+  inline-block
+  items-center
+  text-[#fff]
+  text-[16px]
+  flex
+  rounded
+  py-1
+  px-2
+  mr-2
+`
+
+const social = `
+  flex
+  py-4
+  justify-center
+  md:justify-start
+
+`
 
 
 export {
@@ -315,6 +381,7 @@ export {
   resultDataTimeText,
   finishContainer,
   finishTopHalf,
+  finishShare,
   finishScoreText,
   finishScoreNumber,
   finishRank,
@@ -323,5 +390,8 @@ export {
   finishMessage,
   playAgainContainer,
   playAgainText,
-  finishThank
+  finishThank,
+  social,
+  socialIcon,
+  socialIconContainer
 }

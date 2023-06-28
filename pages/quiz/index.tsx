@@ -1,8 +1,8 @@
 import { gql, ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 import Quiz from '../../components/quiz';
+import { Meta } from '../../components/shared/';
 import Head from 'next/head'
 const isProd = process.env.NODE_ENV === 'production';
-
 
 export const client = new ApolloClient({
     uri: `http://localhost:3000/api/graphql`,
@@ -37,22 +37,14 @@ export default function QuizContainer (props: {
   const { quizid, quizquestions } = props;
   return (
     <div>
-      <Head>
-        <title>Did Kyrie Say It?</title>
-        <link rel="canonical" href="https://www.didkyriesayit.com"/>
-        <link rel="icon" href="https://didkyriesayit.s3.us-east-2.amazonaws.com/icons/favicon-32x32.png" type="image/x-icon"/>
-        <link href="https://didkyriesayit.s3.us-east-2.amazonaws.com/icons/apple-touch-icon.png" rel="apple-touch-icon"/>
-        <meta content="Did Kyrie Say it?"/>
-        <meta content="Did Kyrie Say it?" property="og:description"/>
-        <meta content="Did Kyrie Say it?" property="twitter:description"/>
-      </Head>
+      <Meta/>
       <Quiz quizid={quizid} quizquestions={quizquestions} />
     </div>
   )
 }
 
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   const { data } = await client.query({
     query: QUERY_NEW_QUIZ,
     fetchPolicy: "no-cache" 

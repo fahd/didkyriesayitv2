@@ -36,7 +36,7 @@ const scoreMap: {
   },
   6: {
     rank:'Fist of Draymond 👊',
-    message:'I\'ll admit, your performance was mediocre - but man, you can throw a punch. Nice job - we\'ll get your contract extension ready.'
+    message:'I\'ll admit, your performance was mediocre - but man, you can throw a punch. We\'ll get your contract extension ready.'
   },
   7: {
     rank:'Lethal Scrub 🧽',
@@ -62,4 +62,10 @@ export const scoreGame = (score: number): { rank: string, message: string, adjec
   // const scorePercent: number = Math.floor(score * 10);
   const scoreDetails: { rank: string, message:string} = scoreMap[score];
   return { ...scoreDetails, adjective: getRandomAdjective() }
- }
+}
+ 
+export const generateTwitterLink = (score: number): string => {
+  const message = `I achieved the rank of “${scoreMap[score].rank}” on didkyriesayit.com! - via @asadhabibs`.replace(/\s/g, '%20');
+  const link = `http://twitter.com/intent/tweet?text=${message}`
+  return link
+}

@@ -1,7 +1,9 @@
 import React, { useState, useContext, useEffect } from 'react';
 import Image from 'next/image';
 import { Choices, ChoicesLoading, Timer, Next } from '../shared';
-import { scoreGame } from '../../lib/utils'
+import { scoreGame, generateTwitterLink } from '../../lib/utils'
+import gitHubSrc from './../../public/assets/social/github-white.svg'
+import twitterSrc from './../../public/assets/social/twitter-white.svg'
 
 // Refactor later -> Split components into their own folders. Ugly up here, cleaner classnames below like styled components. Done for my own readability
 import {
@@ -13,12 +15,12 @@ import {
   resultAuthorName, resultPercent, resultDataContainer,
   resultDataSource, resultDataSourceUrl, resultDataResponses,
   resultDataResponsesText, resultDataTime, resultDataTimeText,
-  finishContainer, finishTopHalf, finishScoreText,
+  finishContainer, finishTopHalf, finishScoreText,finishShare,
   finishScoreNumber,finishRank, finishRankTitle, finishTitle,
   finishMessage, playAgainContainer, playAgainText,
   finishThank, questionTextFull, avatarImageContainer,
-  avatarImageMobileContainer, quizCorrectAuthorMobile
-  
+  avatarImageMobileContainer, quizCorrectAuthorMobile,
+  social, socialIcon,socialIconContainer
 
 } from './styles'
 
@@ -59,7 +61,7 @@ const Question = (props: {
   reset: boolean;
   choices: Choice[];
   selected: number;
-  onUpdateSelected: () => void;
+  onUpdateSelected: (n:number) => void;
   onUpdateView: () => void;
 }) => {
   const { reset, choices, selected, onUpdateSelected, onUpdateView } = props;
@@ -203,13 +205,58 @@ const Finish = (props: {
 
           
           <div className={playAgainContainer}>
-            <span className={playAgainText} onClick={() => window.location.reload()}>Play again?</span> <br />
+            <a className={finishShare} href={generateTwitterLink(score)} target='_blank'>
+              <Image
+                className={`${socialIcon}”`}
+                src={twitterSrc}
+                alt={'Twitter Logo'}
+                width={20}
+                height={20}
+              />
+              <span>Share</span>
+            </a>
+            <div className={playAgainText} onClick={() => window.location.reload()}>😈 Play again?</div>
           </div>
 
         </div>
       </div>
       <div className={finishThank}>
-        Thanks for playing!
+        Thank you for playing! I made this mainly as a side project. <br/>If this was interesting at all feel free to reach out below.
+        <div className={social}>
+          <div>
+            <a href='https://github.com/fahd/didkyriesayitv2' target='_blank' className='inline-block'>
+              <div className={`${socialIconContainer} bg-[#333333]`}>
+                <Image
+                    className={socialIcon}
+                    src={gitHubSrc}
+                    alt={'View Code'}
+                    width={20}
+                    height={20}
+                    />
+                    <span>View code</span>
+              </div>
+            </a>
+          </div>
+          <div>
+            <a className={`${finishShare} mr-1`} href={`https://twitter.com/asadhabibs`} target='_blank'>
+                <Image
+                  className={`${socialIcon}`}
+                src={twitterSrc}
+                alt={'Twitter Logo'}
+                width={20}
+                height={20}
+              />
+              <span>Twitter</span>
+            </a>
+          </div>
+          <div>
+            <a href='mailto:littlehabib@proton.me' target='_blank' className='inline-block'>
+              <div className={`${socialIconContainer} bg-[#666]`}>
+                  <span>&nbsp; ✉️ Email &nbsp;</span>
+              </div>
+            </a>
+            </div>
+        </div>
       </div>
     </div>
   )
@@ -225,7 +272,7 @@ const QuizBody = (props: {
   score: number;
   correctAuthor: string;
   avatar_url: string;
-  onUpdateSelected: () => void;
+  onUpdateSelected: (n:number) => void;
   onUpdateQuestion: () => void;
   onUpdateView: () => void;
   choices: Choice[];
@@ -244,7 +291,7 @@ const QuizBody = (props: {
     )
   }
 
-  const imgSrc = view === 'q' ? '/../public/huh.png' : avatar_url;
+  const imgSrc = view === 'q' ? 'https://didkyriesayit.s3.us-east-2.amazonaws.com/avatars/unknown.png' : avatar_url;
   const alt = view === 'q' ? 'Who could this be?' : correctAuthor;
 
 

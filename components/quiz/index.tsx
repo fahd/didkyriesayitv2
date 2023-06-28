@@ -77,7 +77,6 @@ const GET_QUESTION_RESULTS = gql`
   }
 `;
 
-
 const Quiz = (props: {
   quizid: string,
   quizquestions: Question[]
@@ -86,7 +85,11 @@ const Quiz = (props: {
   const { quizid, quizquestions } = props;
   const [i, updateI] = useState(0);
   const [question, updateQuestion] = useState({});
-  const [results, updateResults] = useState({});
+  const [results, updateResults] = useState({
+    times_answered: 0,
+    no_response: 0,
+    choices: [],
+    average_response_time: 0});
   const [selected, updateSelected] = useState(-1);
   const [reset, onReset] = useState(false);
   const [score, updateScore] = useState(0);
@@ -157,6 +160,9 @@ const Quiz = (props: {
     updateResponseTime(Date.now())
   }
 
+  const onUpdateSelected = (n:number):void => {
+    updateSelected(n);
+  }
   
   if (loading || !quizid) {
     return (
@@ -167,6 +173,7 @@ const Quiz = (props: {
   }
   
   const q = Object.keys(question).length === 0 ? data.questionDetails : question;
+
 
   return (
     <div>
@@ -185,7 +192,7 @@ const Quiz = (props: {
           selected={selected}
           correctAuthor={q.correct.author_name}
           onUpdateView={onUpdateView}
-          onUpdateSelected={updateSelected}
+          onUpdateSelected={onUpdateSelected}
           onUpdateQuestion={onUpdateQuestion}
           idx={i}
         />

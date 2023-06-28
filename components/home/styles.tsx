@@ -75,11 +75,11 @@ const description = `
   pt-6
   
   md:pt-6
+  md:max-w-md
   
+  lg:max-w-xl
   lg:text-3xl
   lg:pt-10
-  lg:pr-10
-
 `
 
 const quizDescription = `
@@ -90,9 +90,9 @@ const quizDescription = `
 
 const buttonContainer = `
   max-w-xl
-  md:max-w-md
   m-auto
-  lg:m-0
+  md:max-w-md
+  lg:max-w-xl
 `
 
 const avatarCircle = `

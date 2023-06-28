@@ -4,9 +4,9 @@ import {
 } from '@apollo/server'
 import { startServerAndCreateNextHandler } from '@as-integrations/next';
 
-import models from '../graphql/models';
-import typeDefs from '../graphql/schema';
-import resolvers from '../graphql/resolvers';
+import models from '../../lib/graphql/models';
+import typeDefs from '../../lib/graphql/schema';
+import resolvers from '../../lib/graphql/resolvers';
 
 const isProd = process.env.NODE_ENV === 'production';
 

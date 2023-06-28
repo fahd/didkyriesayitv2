@@ -1,5 +1,6 @@
-import { scoreGame } from './scoreGen';
+import { scoreGame, generateTwitterLink } from './score';
 
 export {
-  scoreGame
+  scoreGame,
+  generateTwitterLink
 }
